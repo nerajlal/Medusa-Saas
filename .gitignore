@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.npm/
+
+# Environment
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Medusa
+.medusa/
+uploads/
+public/uploads/
+
+# Build
+dist/
+.next/
+out/
+build/
+
+# IDE / Misc
+.vscode/
+.idea/
+*.log
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.tmp/
+temp/
