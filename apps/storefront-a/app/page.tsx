@@ -1,77 +1,63 @@
 import { fetchProducts } from "@/lib/medusa"
+import Image from "next/image"
 
-export const dynamic = "force-dynamic"
-
-export default async function HomePage() {
-  let products: any[] = []
-  try {
-    const data = await fetchProducts({ limit: "12" })
-    products = data.products || []
-  } catch (_) {
-    products = []
-  }
-
-  const placeholders = ["🧪", "🎒", "💡", "📦", "🎨", "🌿", "✨", "🌊", "🔮", "🎯", "🧩", "💎"]
+export default async function Home() {
+  const { products } = await fetchProducts()
 
   return (
-    <>
-      {/* Hero */}
-      <section className="hero">
-        <h1>
-          Less, but <span>better.</span>
-        </h1>
-        <p>
-          A thoughtfully curated selection of products — each chosen for design, quality, and purpose.
-        </p>
-        <a href="#products" className="btn">Explore Collection</a>
-      </section>
-
-      {/* Products */}
-      <div id="products">
-        <div className="section-title">
-          <h2>Collection</h2>
-          <p>New Arrivals</p>
+    <div className="min-h-screen bg-[#fafafa] text-[#1a1a1a] font-sans antialiased">
+      <nav className="max-w-7xl mx-auto px-8 py-10 flex justify-between items-baseline">
+        <h1 className="text-xl font-bold tracking-tighter uppercase">Minima <span className="font-light text-slate-400 font-mono">/ A</span></h1>
+        <div className="space-x-8 text-sm font-medium text-slate-500 uppercase tracking-widest">
+          <a href="#" className="hover:text-black transition-colors">Catalog</a>
+          <a href="#" className="hover:text-black transition-colors">Archive</a>
+          <a href="#" className="hover:text-black transition-colors underline decoration-1 underline-offset-8">Cart (0)</a>
         </div>
+      </nav>
 
-        <div className="product-grid">
-          {products.length > 0
-            ? products.map((p: any, i: number) => {
-                const variant = p.variants?.[0]
-                const price = variant?.prices?.[0]
-                const amount = price
-                  ? new Intl.NumberFormat("en-IN", {
-                      style: "currency",
-                      currency: price.currency_code?.toUpperCase() || "INR",
-                    }).format(price.amount / 100)
-                  : "—"
+      <main className="max-w-7xl mx-auto px-8 py-20 mt-20">
+        <header className="mb-32">
+          <h2 className="text-6xl font-extrabold tracking-tighter max-w-2xl leading-[0.9]">
+            The Essential <span className="font-light italic">Collection.</span>
+          </h2>
+          <p className="mt-8 text-lg text-slate-500 max-w-md font-medium leading-relaxed">
+            Curated objects for a minimalist lifestyle. Purposely simple. Exceptionally crafted.
+          </p>
+        </header>
 
-                return (
-                  <div className="product-card" key={p.id}>
-                    <div className="product-image">
-                      {p.thumbnail
-                        ? <img src={p.thumbnail} alt={p.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                        : placeholders[i % placeholders.length]}
-                    </div>
-                    <div className="product-info">
-                      <h3>{p.title}</h3>
-                      <div className="price">{amount}</div>
-                      <button className="add-to-cart">Add to Cart</button>
-                    </div>
-                  </div>
-                )
-              })
-            : placeholders.map((emoji, i) => (
-                <div className="product-card" key={i}>
-                  <div className="product-image">{emoji}</div>
-                  <div className="product-info">
-                    <div className="skeleton" style={{ height: "16px", width: "70%", marginBottom: "8px" }} />
-                    <div className="skeleton" style={{ height: "13px", width: "40%", marginBottom: "14px" }} />
-                    <div className="add-to-cart" style={{ background: "#e5e7eb", color: "transparent" }}>—</div>
-                  </div>
-                </div>
-              ))}
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+          {products?.map((product: any) => (
+            <div key={product.id} className="group cursor-pointer">
+              <div className="aspect-[3/4] bg-white relative overflow-hidden mb-6 rounded-sm">
+                 <Image 
+                    src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1000"} 
+                    alt={product.title}
+                    fill
+                    className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
+                 />
+              </div>
+              <div className="flex justify-between items-baseline border-b border-slate-100 pb-2">
+                <h3 className="text-sm font-bold uppercase tracking-tight">{product.title}</h3>
+                <span className="text-sm font-mono text-slate-400">
+                  {product.variants?.[0]?.prices?.[0]?.amount 
+                    ? `INR ${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
+                    : "Price on request"}
+                </span>
+              </div>
+              <p className="mt-2 text-xs text-slate-400 uppercase tracking-widest font-semibold opacity-0 group-hover:opacity-100 transition-opacity">View Details →</p>
+            </div>
+          ))}
+        </section>
+      </main>
+
+      <footer className="max-w-7xl mx-auto px-8 py-32 mt-40 border-t border-slate-100 flex justify-between items-center text-[10px] uppercase tracking-widest font-bold text-slate-300">
+        <p>© 2026 Minima Multi-tenant. All Rights Reserved.</p>
+        <div className="space-x-6">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Instagram</a>
         </div>
-      </div>
-    </>
+      </footer>
+    </div>
   )
 }

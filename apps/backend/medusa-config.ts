@@ -38,15 +38,15 @@ module.exports = defineConfig({
       },
     },
 
-    // ─── S3 / DigitalOcean Spaces File Storage ───────────────────────────────
+    // ─── Custom: Tenant-Aware S3 File Storage ───────────────────────────────
     {
       resolve: '@medusajs/file',
       key: Modules.FILE,
       options: {
         providers: [
           {
-            resolve: '@medusajs/file-s3',
-            id: 's3',
+            resolve: './src/modules/tenant-file-service',
+            id: 'tenant-s3',
             options: {
               file_url: process.env.S3_FILE_URL,
               access_key_id: process.env.S3_ACCESS_KEY_ID,
@@ -54,12 +54,12 @@ module.exports = defineConfig({
               region: process.env.S3_REGION || 'blr1',
               bucket: process.env.S3_BUCKET,
               endpoint: process.env.S3_ENDPOINT, // DigitalOcean Spaces endpoint
-              prefix: '', // per-tenant prefix set dynamically at upload time
             },
           },
         ],
       },
     },
+
 
     // ─── Redis Cache (for session/token caching) ─────────────────────────────
     {

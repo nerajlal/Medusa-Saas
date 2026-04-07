@@ -2,12 +2,33 @@ import { Migration } from '@mikro-orm/migrations';
 
 export class TenantRLSMigration extends Migration {
   async up(): Promise<void> {
-    // 1. Add tenant_id to core tables
-    const coreTables = ['product', 'customer', 'order', 'cart', 'payment_collection'];
+    // 1. Comprehensive list of core tables for Medusa v2
+    const coreTables = [
+      'product',
+      'product_variant',
+      'product_option',
+      'product_collection',
+      'product_type',
+      'product_tag',
+      'order',
+      'cart',
+      'line_item',
+      'customer',
+      'payment_collection',
+      'payment',
+      'region',
+      'shipping_option',
+      'sales_channel',
+      'promotion',
+      'price_list',
+      'fulfillment',
+      'store'
+    ];
     
     for (const table of coreTables) {
-      // Add column
-      this.addSql(`ALTER TABLE "${table}" ADD COLUMN IF NOT EXISTS "tenant_id" text;`);
+      // Add tenant_id column with default value from session setting
+      this.addSql(`ALTER TABLE "${table}" ADD COLUMN IF NOT EXISTS "tenant_id" text DEFAULT current_setting('app.current_tenant_id', true);`);
+
       
       // Index for fast tenant lookups
       this.addSql(`CREATE INDEX IF NOT EXISTS "idx_${table}_tenant_id" ON "${table}" ("tenant_id");`);
@@ -19,8 +40,8 @@ export class TenantRLSMigration extends Migration {
       this.addSql(`DROP POLICY IF EXISTS tenant_isolation_policy ON "${table}";`);
 
       // 4. Create RLS Policy
-      // We enforce that the tenant_id must match the current local setting in Postgres
-      // We also check if we are in a 'bypass_rls' context (for Master Admin/internal jobs)
+      // We enforce that the tenant_id must match the current session setting: app.current_tenant_id
+      // We also check for 'app.bypass_rls' = 'true' for Master Admin/Internal tasks
       this.addSql(`
         CREATE POLICY tenant_isolation_policy ON "${table}"
         FOR ALL
@@ -37,7 +58,12 @@ export class TenantRLSMigration extends Migration {
   }
 
   async down(): Promise<void> {
-    const coreTables = ['product', 'customer', 'order', 'cart', 'payment_collection'];
+    const coreTables = [
+      'product', 'product_variant', 'product_option', 'product_collection',
+      'product_type', 'product_tag', 'order', 'cart', 'line_item', 'customer',
+      'payment_collection', 'payment', 'region', 'shipping_option', 'sales_channel',
+      'promotion', 'price_list', 'fulfillment', 'store'
+    ];
     
     for (const table of coreTables) {
       this.addSql(`DROP POLICY IF EXISTS tenant_isolation_policy ON "${table}";`);

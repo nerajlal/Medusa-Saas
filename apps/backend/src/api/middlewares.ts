@@ -1,5 +1,6 @@
 import { defineMiddlewares } from "@medusajs/medusa"
 import type { MedusaRequest, MedusaResponse, MedusaNextFunction } from "@medusajs/medusa"
+import { tenantContextStorage } from "./tenant-context"
 
 export async function tenantMiddleware(
   req: MedusaRequest,
@@ -10,19 +11,32 @@ export async function tenantMiddleware(
   const tenantId = req.headers["x-tenant-id"] as string
 
   if (tenantId) {
-    // In Medusa v2 we have access to the query layer.
-    // For raw RLS isolation in MikroORM we ensure that this parameter 
-    // is set for the Postgres transaction session in the event context
-    // Alternatively, just bind it to the request scope for API usage:
-    req.scope.register({
-      tenantId: {
-        resolve: () => tenantId,
-      },
+    // 1. Run the entire request context within the ACL
+    return tenantContextStorage.run(tenantId, async () => {
+      // 2. Register in scope for logic usage
+      req.scope.register({
+        tenantId: {
+          resolve: () => tenantId,
+        },
+      })
+
+      // 3. Set Postgres Session Variable for RLS
+      try {
+        const dbConnection = req.scope.resolve("db_connection")
+        await dbConnection.query(`SET app.current_tenant_id = '${tenantId}'`)
+      } catch (error) {
+        console.error("Failed to set tenant context in DB:", error)
+        return res.status(500).json({ error: "Internal server error (Tenant Context)" })
+      }
+      
+      next()
     })
   }
 
   next()
 }
+
+
 
 export default defineMiddlewares({
   routes: [
