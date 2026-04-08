@@ -25,82 +25,103 @@ export default async function Home() {
 
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans selection:bg-gold-500/30 antialiased">
-      {/* Luxury Background Gradient */}
-      <div className="fixed inset-0 bg-gradient-to-b from-[#111] via-[#0a0a0a] to-[#050505] -z-10" />
-      
-      <nav className="max-w-screen-2xl mx-auto px-10 py-12 flex justify-between items-center border-b border-white/5 backdrop-blur-md sticky top-0 z-50">
-        <h1 className="text-2xl font-black tracking-[0.3em] uppercase bg-gradient-to-r from-neutral-200 via-neutral-500 to-neutral-200 bg-clip-text text-transparent">
-          NOIR <span className="font-thin text-neutral-600">/ B</span>
-        </h1>
-        <div className="hidden md:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-500">
-          <a href="#" className="hover:text-white transition-all hover:tracking-[0.5em]">Collections</a>
-          <a href="#" className="hover:text-white transition-all hover:tracking-[0.5em]">Bespeak</a>
-          <a href="#" className="hover:text-white transition-all hover:tracking-[0.5em] text-neutral-200 border-b border-neutral-200/20 pb-1">Shop</a>
-        </div>
-      </nav>
-
-      <main className="max-w-screen-2xl mx-auto px-10 pt-40 pb-40">
-        <div className="flex flex-col mb-40 text-center items-center">
-          <h2 className="text-[12rem] font-black leading-none tracking-tighter opacity-10 select-none absolute -translate-y-20">PREMIUM</h2>
-          <h2 className="text-8xl font-black tracking-tighter max-w-4xl leading-[0.85] relative z-10">
-            Timeless Elegance. <span className="text-neutral-500 font-light italic italic">Defining Modern Luxury.</span>
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <main className="max-w-screen-2xl mx-auto px-10">
+        {/* SECTION 1: DRAMATIC HERO */}
+        <header className="py-60 relative overflow-hidden flex flex-col items-center text-center">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent skew-x-12 translate-x-48" />
+          <h2 className="text-[12rem] font-black leading-none tracking-tighter opacity-10 select-none absolute -translate-y-20 uppercase">Premium</h2>
+          <h2 className="text-9xl font-black tracking-tighter max-w-5xl leading-[0.85] relative z-10 mb-16 uppercase italic">
+            Defining <span className="text-neutral-500 font-light">The Standard.</span>
           </h2>
-          <p className="mt-12 text-sm text-neutral-400 max-w-lg font-medium tracking-wide leading-relaxed uppercase">
-            Exclusive products curated for the discerning few. 
+          <p className="mt-8 text-[11px] text-neutral-400 max-w-sm font-bold tracking-[0.4em] leading-relaxed uppercase border-t border-white/10 pt-8">
+            Curated objects for the aesthetic vanguard. Unique, numbered, and timeless.
           </p>
-        </div>
+        </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-24">
-          {products?.map((product: any) => (
-            <div key={product.id} className="group relative">
-              <div className="aspect-[4/5] bg-neutral-900 border border-white/5 relative overflow-hidden group-hover:border-white/20 transition-all duration-1000 shadow-2xl">
-                 <Image 
+        {/* SECTION 2: LUXURY GRID */}
+        <section className="py-40 border-t border-white/5">
+          <div className="flex justify-between items-end mb-24">
+            <div>
+              <span className="text-[10px] font-black tracking-[0.6em] text-neutral-600 block mb-4 uppercase">Selection / 01</span>
+              <h3 className="text-4xl font-black uppercase tracking-tighter">The Private Collection</h3>
+            </div>
+            <a href="/collections/all" className="text-[10px] font-black uppercase tracking-[0.5em] text-neutral-500 hover:text-white transition-all">Explore All →</a>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {products?.map((product: any) => (
+              <a href={`/products/${product.handle || product.id}`} key={product.id} className="group flex flex-col items-center text-center">
+                <div className="aspect-[4/5] w-full bg-neutral-900/50 border border-white/5 relative overflow-hidden mb-10 group-hover:border-white/20 transition-all duration-1000 shadow-2xl">
+                  <Image 
                     src={product.thumbnail || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000"} 
                     alt={product.title}
                     fill
-                    className="object-cover group-hover:scale-110 transition-all duration-1000 ease-in-out opacity-80 group-hover:opacity-100"
+                    className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000 ease-in-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40" />
+                </div>
+                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-400 group-hover:text-white transition-colors mb-2">{product.title}</h3>
+                <span className="text-sm font-light text-neutral-500 italic">
+                  {product.variants?.[0]?.prices?.[0]?.amount 
+                    ? `₹${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
+                    : "By Appointment"}
+                </span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        {/* SECTION 3: ATELIER STORY */}
+        <section className="py-60 border-t border-white/5 flex justify-center">
+           <div className="max-w-3xl text-center">
+              <span className="text-[10px] font-black tracking-[0.6em] text-neutral-700 block mb-12 uppercase">The Atelier / 02</span>
+              <p className="text-5xl font-black italic tracking-tighter leading-tight mb-16 underline decoration-white/10 underline-offset-[20px]">
+                "True luxury is not found in the display, but in the silence of perfect craft."
+              </p>
+              <div className="flex justify-center gap-12 grayscale opacity-40">
+                 <div className="w-16 h-1 w-px bg-white/20" />
+              </div>
+           </div>
+        </section>
+
+        {/* SECTION 4: EXCLUSIVE ACCESS */}
+        <section className="py-40 bg-neutral-950 -mx-10 px-10 border-y border-white/5">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center max-w-screen-2xl mx-auto">
+              <div className="relative aspect-[3/2] bg-neutral-900 border border-white/5 overflow-hidden">
+                 <Image 
+                    src="https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1000" 
+                    alt="Noir Membership"
+                    fill
+                    className="object-cover opacity-40"
                  />
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                 <button className="absolute bottom-10 left-1/2 -translate-x-1/2 px-8 py-3 bg-white text-black text-[10px] font-black uppercase tracking-widest opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500">
-                    Add to Collection
+              </div>
+              <div className="max-w-md">
+                 <span className="text-[10px] font-black tracking-[0.5em] text-neutral-600 block mb-8 uppercase">Membership / 03</span>
+                 <h3 className="text-5xl font-black uppercase tracking-tighter mb-8">Noir Privé</h3>
+                 <p className="text-sm text-neutral-500 leading-relaxed uppercase tracking-[0.2em] font-bold mb-12">
+                    Gain exclusive access to pre-launches, numbered editions, and bespoke manufacturing services.
+                 </p>
+                 <button className="px-12 py-5 border border-white/10 text-[10px] font-black uppercase tracking-[0.5em] hover:bg-white hover:text-black transition-all">
+                    Apply for Access
                  </button>
               </div>
-              <div className="mt-8">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-neutral-400 group-hover:text-white transition-colors">{product.title}</h3>
-                    <p className="mt-1 text-[10px] font-bold text-neutral-600 uppercase tracking-widest leading-none">Limited Edition</p>
-                  </div>
-                  <span className="text-sm font-light text-neutral-200">
-                    {product.variants?.[0]?.prices?.[0]?.amount 
-                      ? `₹ ${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
-                      : "Price on Request"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+           </div>
+        </section>
+
+        {/* SECTION 5: NEWSLETTER */}
+        <section className="py-60 flex flex-col items-center text-center">
+           <h3 className="text-[10px] font-black tracking-[0.8em] text-neutral-300 mb-16 uppercase">Join the Manifesto</h3>
+           <div className="w-full max-w-xl flex flex-col gap-10">
+              <input 
+                 type="email" 
+                 placeholder="SIGN UP FOR UPDATES" 
+                 className="bg-transparent border-b border-white/10 py-6 text-center text-xs font-black uppercase tracking-[0.5em] outline-none focus:border-white transition-all" 
+              />
+              <button className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500 hover:text-white">Submit Findings</button>
+           </div>
         </section>
       </main>
-
-      <footer className="border-t border-white/5 bg-neutral-950 py-32 px-10">
-        <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-20">
-          <h4 className="text-4xl font-black tracking-tighter text-neutral-800 uppercase">Noir / Storefront</h4>
-          <div className="flex gap-20 text-[10px] font-black uppercase tracking-[0.3em] text-neutral-600">
-            <div className="flex flex-col gap-4">
-              <span className="text-neutral-400">Services</span>
-              <a href="#">Privé</a>
-              <a href="#">Concierge</a>
-            </div>
-            <div className="flex flex-col gap-4">
-              <span className="text-neutral-400">Legal</span>
-              <a href="#">Privacy</a>
-              <a href="#">Manifesto</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
+

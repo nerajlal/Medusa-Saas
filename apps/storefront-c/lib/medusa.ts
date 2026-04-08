@@ -100,3 +100,48 @@ export async function addLineItem(cartId: string, variantId: string, quantity: n
   })
   return res.json()
 }
+
+export async function fetchCollections() {
+  try {
+    const res = await fetch(`${BACKEND_URL}/store/collections`, {
+      headers: {
+        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "",
+        "x-tenant-id": TENANT_ID,
+      },
+      next: { revalidate: 60 },
+    })
+    if (!res.ok) throw new Error("Failed to fetch collections")
+    return res.json()
+  } catch (e) {
+    return {
+      collections: [
+        { id: "col_1", title: "Summer Essentials", handle: "summer-essentials", description: "Stay cool with our latest summer drops." },
+        { id: "col_2", title: "Winter Archive", handle: "winter-archive", description: "Timeless pieces for the cold season." },
+        { id: "col_3", title: "New Arrivals", handle: "new-arrivals", description: "The freshest inventory just for you." }
+      ]
+    }
+  }
+}
+
+export async function fetchCollectionByHandle(handle: string) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/store/collections?handle=${handle}`, {
+      headers: {
+        "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || "",
+        "x-tenant-id": TENANT_ID,
+      },
+      next: { revalidate: 60 },
+    })
+    if (!res.ok) throw new Error("Failed to fetch collection")
+    const data = await res.json()
+    return data.collections?.[0] || null
+  } catch (e) {
+    const collections: any = {
+      "summer-essentials": { id: "col_1", title: "Summer Essentials", handle: "summer-essentials", metadata: { theme: "light" } },
+      "winter-archive": { id: "col_2", title: "Winter Archive", handle: "winter-archive", metadata: { theme: "cool" } },
+      "new-arrivals": { id: "col_3", title: "New Arrivals", handle: "new-arrivals", metadata: { theme: "vibrant" } }
+    }
+    return collections[handle] || collections["new-arrivals"]
+  }
+}
+
