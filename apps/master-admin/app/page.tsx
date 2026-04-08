@@ -23,14 +23,45 @@ export default function Home() {
   const fetchTenants = async () => {
     try {
       const res = await fetch("http://localhost:9000/admin/tenants")
+      if (!res.ok) throw new Error("not ok")
       const data = await res.json()
       setTenants(data.tenants || [])
     } catch (e) {
-      console.error("Failed to fetch tenants", e)
+      console.warn("Using mock tenants for demo")
+      setTenants([
+        {
+          id: "t_1",
+          tenant_id: "nike-shop",
+          store_name: "Nike Official Store",
+          theme: "A",
+          storefront_url: "localhost:3001",
+          phonepe_merchant_id: "MERCH_NIKE_001",
+          phonepe_env: "production"
+        },
+        {
+          id: "t_2",
+          tenant_id: "apple-premium",
+          store_name: "Apple Premium Reseller",
+          theme: "B",
+          storefront_url: "localhost:3002",
+          phonepe_merchant_id: "MERCH_APL_99",
+          phonepe_env: "sandbox"
+        },
+        {
+          id: "t_3",
+          tenant_id: "adidas-boost",
+          store_name: "Adidas High-Conv",
+          theme: "C",
+          storefront_url: "localhost:3003",
+          phonepe_merchant_id: "MERCH_ADI_07",
+          phonepe_env: "production"
+        }
+      ])
     } finally {
       setLoading(false)
     }
   }
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

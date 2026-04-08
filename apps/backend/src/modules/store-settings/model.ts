@@ -18,6 +18,5 @@ export const StoreSettings = model.define("store_settings", {
   // S3 bucket prefix (auto-derived as /tenant_id/)
   s3_prefix: model.text().nullable(),
   is_active: model.boolean().default(true),
-  created_at: model.dateTime(),
-  updated_at: model.dateTime(),
 })
+

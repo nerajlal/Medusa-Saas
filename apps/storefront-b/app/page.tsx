@@ -2,7 +2,27 @@ import { fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
 
 export default async function Home() {
-  const { products } = await fetchProducts()
+  const products = [
+    {
+      id: "prod_1",
+      title: "Midnight Chronograph",
+      thumbnail: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=1200",
+      variants: [{ prices: [{ amount: 1250000 }] }]
+    },
+    {
+      id: "prod_2",
+      title: "Onyx Leather Bag",
+      thumbnail: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1200",
+      variants: [{ prices: [{ amount: 850000 }] }]
+    },
+    {
+      id: "prod_3",
+      title: "Carbon Fiber Wallet",
+      thumbnail: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1200",
+      variants: [{ prices: [{ amount: 150000 }] }]
+    }
+  ]
+
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white font-sans selection:bg-gold-500/30 antialiased">

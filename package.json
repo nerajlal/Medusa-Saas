@@ -5,5 +5,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "caniuse-lite": "^1.0.30001787",
+    "lodash": "^4.18.1"
+  }
 }

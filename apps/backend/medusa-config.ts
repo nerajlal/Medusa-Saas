@@ -24,6 +24,7 @@ module.exports = defineConfig({
       key: 'storeSettings',
     },
 
+    /*
     // ─── Custom: Dynamic PhonePe Payment Provider ────────────────────────────
     {
       resolve: '@medusajs/payment',
@@ -59,25 +60,25 @@ module.exports = defineConfig({
         ],
       },
     },
+    */
 
 
-    // ─── Redis Cache (for session/token caching) ─────────────────────────────
+
+
+
+    // ─── In-Memory Cache (for local demo) ───────────────────────────────────
     {
-      resolve: '@medusajs/cache-redis',
+      resolve: '@medusajs/cache-inmemory',
       key: Modules.CACHE,
-      options: {
-        redisUrl: process.env.REDIS_URL,
-        ttl: 30,
-      },
+      options: {},
     },
 
-    // ─── Redis Event Bus ─────────────────────────────────────────────────────
+    // ─── In-Memory Event Bus ────────────────────────────────────────────────
     {
-      resolve: '@medusajs/event-bus-redis',
+      resolve: '@medusajs/event-bus-local',
       key: Modules.EVENT_BUS,
-      options: {
-        redisUrl: process.env.REDIS_URL,
-      },
+      options: {},
     },
+
   ],
 })
