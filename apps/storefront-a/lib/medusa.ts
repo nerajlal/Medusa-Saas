@@ -21,29 +21,32 @@ export async function fetchProducts(params: Record<string, string> = {}) {
     if (!res.ok) throw new Error("Failed to fetch products")
     return res.json()
   } catch (e) {
-    console.error("Backend fetch failed, returning mock data...")
+    console.warn("Backend fetch failed, returning mock data...")
     return {
       products: [
         {
           id: "prod_1",
-          title: "Premium Essential Tee",
-          handle: "premium-essential-tee",
-          thumbnail: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
-          variants: [{ id: "var_1", prices: [{ amount: 2500, currency_code: "usd" }] }]
+          title: "Ceramic Minimalist Vase",
+          handle: "ceramic-vase",
+          thumbnail: "https://images.unsplash.com/photo-1581591524425-c7e0978865fc?auto=format&fit=crop&w=800&q=80",
+          description: "Hand-crafted ceramic vase with a matte finish. Perfect for minimalist interiors.",
+          variants: [{ prices: [{ amount: 4500, currency_code: "inr" }] }]
         },
         {
           id: "prod_2",
-          title: "Minimalist Watch",
-          handle: "minimalist-watch",
-          thumbnail: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=800&q=80",
-          variants: [{ id: "var_2", prices: [{ amount: 4500, currency_code: "usd" }] }]
+          title: "Matte Black Desk Lamp",
+          handle: "desk-lamp",
+          thumbnail: "https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=800&q=80",
+          description: "Adjustable desk lamp with a sleek matte black finish and warm LED light.",
+          variants: [{ prices: [{ amount: 7200, currency_code: "inr" }] }]
         },
         {
           id: "prod_3",
-          title: "Organic Cotton Tote",
-          handle: "organic-tote",
-          thumbnail: "https://images.unsplash.com/photo-1544816153-199d88-f06294e1?auto=format&fit=crop&w=800&q=80",
-          variants: [{ id: "var_3", prices: [{ amount: 1500, currency_code: "usd" }] }]
+          title: "Wool Texture Throw",
+          handle: "wool-throw",
+          thumbnail: "https://images.unsplash.com/photo-1580301762395-21ce84d00bc6?auto=format&fit=crop&w=800&q=80",
+          description: "Soft wool throw blanket with a rich texture, ideal for cozy evenings.",
+          variants: [{ prices: [{ amount: 3800, currency_code: "inr" }] }]
         }
       ]
     }

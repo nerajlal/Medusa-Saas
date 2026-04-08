@@ -1,8 +1,9 @@
 import { fetchProduct } from "@/lib/medusa"
 import Image from "next/image"
 
-export default async function ProductPage({ params }: { params: { handle: string } }) {
-  const product = await fetchProduct(params.handle)
+export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params
+  const product = await fetchProduct(handle)
 
   if (!product) {
     return <div className="min-h-screen flex items-center justify-center text-[10px] font-bold uppercase tracking-widest">Collection Exhausted / 404</div>
