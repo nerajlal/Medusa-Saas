@@ -129,11 +129,21 @@ export default function Home() {
                 <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">PhonePe:</span> {tenant.phonepe_merchant_id ? `Active (${tenant.phonepe_env})` : "Not Configured"}</p>
               </div>
               <div className="mt-6 flex gap-2">
-                <button className="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-700 py-2 rounded-xl text-sm font-medium transition-colors">Manage</button>
                 <a 
-                  href={tenant.storefront_url} 
+                  href="http://localhost:9000/app" 
                   target="_blank" 
-                  className="px-4 bg-slate-50 hover:bg-slate-100 text-slate-700 py-2 rounded-xl text-sm font-medium flex items-center justify-center transition-colors"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-slate-50 hover:bg-slate-100 text-slate-700 py-2 rounded-xl text-sm font-medium transition-colors text-center flex items-center justify-center"
+                >
+                  Manage
+                </a>
+                <a 
+                  href={tenant.storefront_url?.startsWith('http') ? tenant.storefront_url : `http://${tenant.storefront_url}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="px-4 bg-slate-50 hover:bg-slate-100 text-slate-700 py-2 rounded-xl text-sm font-medium flex items-center justify-center transition-colors object-center"
+                  aria-label="View Store"
+                  title="View Store"
                 >
                   ↗
                 </a>

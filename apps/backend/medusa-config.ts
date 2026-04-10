@@ -18,6 +18,18 @@ module.exports = defineConfig({
   },
 
   modules: [
+    {
+      resolve: '@medusajs/auth',
+      options: {
+        providers: [
+          {
+            resolve: '@medusajs/auth-emailpass',
+            id: 'emailpass',
+          },
+        ],
+      },
+    },
+
     // ─── Custom: StoreSettings (tenant credentials & config) ────────────────
     {
       resolve: './src/modules/store-settings',
@@ -63,8 +75,47 @@ module.exports = defineConfig({
     */
 
 
+    // ─── File Provider (local storage for dev) ────────────────────────────────
+    {
+      resolve: '@medusajs/file',
+      key: Modules.FILE,
+      options: {
+        providers: [
+          {
+            resolve: '@medusajs/file-local',
+            id: 'local',
+            options: {},
+          },
+        ],
+      },
+    },
 
-
+    // ─── Fulfillment Provider (manual for dev) ──────────────────────────────
+    {
+      resolve: '@medusajs/fulfillment',
+      options: {
+        providers: [
+          {
+            resolve: '@medusajs/fulfillment-manual',
+            id: 'manual',
+            options: {},
+          },
+        ],
+      },
+    },
+    // ─── Notification Provider (local for dev) ────────────────────────────────
+    {
+      resolve: '@medusajs/notification',
+      options: {
+        providers: [
+          {
+            resolve: '@medusajs/notification-local',
+            id: 'local',
+            options: {},
+          },
+        ],
+      },
+    },
 
     // ─── In-Memory Cache (for local demo) ───────────────────────────────────
     {
