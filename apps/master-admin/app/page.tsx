@@ -12,7 +12,9 @@ export default function Home() {
     theme: "A",
     phonepe_merchant_id: "",
     phonepe_api_key: "",
-    storefront_url: ""
+    storefront_url: "",
+    admin_email: "",
+    admin_password: ""
   })
 
   // Fetch tenants on load
@@ -22,41 +24,13 @@ export default function Home() {
 
   const fetchTenants = async () => {
     try {
-      const res = await fetch("http://localhost:9000/admin/tenants")
+      const res = await fetch("http://127.0.0.1:9000/admin/tenants")
       if (!res.ok) throw new Error("not ok")
       const data = await res.json()
       setTenants(data.tenants || [])
     } catch (e) {
-      console.warn("Using mock tenants for demo")
-      setTenants([
-        {
-          id: "t_1",
-          tenant_id: "nike-shop",
-          store_name: "Nike Official Store",
-          theme: "A",
-          storefront_url: "localhost:3001",
-          phonepe_merchant_id: "MERCH_NIKE_001",
-          phonepe_env: "production"
-        },
-        {
-          id: "t_2",
-          tenant_id: "apple-premium",
-          store_name: "Apple Premium Reseller",
-          theme: "B",
-          storefront_url: "localhost:3002",
-          phonepe_merchant_id: "MERCH_APL_99",
-          phonepe_env: "sandbox"
-        },
-        {
-          id: "t_3",
-          tenant_id: "adidas-boost",
-          store_name: "Adidas High-Conv",
-          theme: "C",
-          storefront_url: "localhost:3003",
-          phonepe_merchant_id: "MERCH_ADI_07",
-          phonepe_env: "production"
-        }
-      ])
+      console.error("Failed to fetch real tenants:", e)
+      setTenants([])
     } finally {
       setLoading(false)
     }
@@ -66,7 +40,7 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const res = await fetch("http://localhost:9000/admin/tenants", {
+      const res = await fetch("http://127.0.0.1:9000/admin/tenants", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData)
@@ -80,7 +54,9 @@ export default function Home() {
           theme: "A",
           phonepe_merchant_id: "",
           phonepe_api_key: "",
-          storefront_url: ""
+          storefront_url: "",
+          admin_email: "",
+          admin_password: ""
         })
       }
     } catch (e) {
@@ -125,6 +101,7 @@ export default function Home() {
               </div>
               <h2 className="text-xl font-bold text-slate-800 mb-2">{tenant.store_name}</h2>
               <div className="space-y-2 mt-4 text-sm text-slate-600">
+                <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">Owner:</span> {tenant.admin_email || "not set"}</p>
                 <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">URL:</span> {tenant.storefront_url || "not set"}</p>
                 <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">PhonePe:</span> {tenant.phonepe_merchant_id ? `Active (${tenant.phonepe_env})` : "Not Configured"}</p>
               </div>
@@ -202,6 +179,28 @@ export default function Home() {
                   />
                 </div>
               </div>
+              <div className="pt-4 border-t border-slate-100">
+                <p className="text-xs font-bold text-slate-400 mb-3 uppercase tracking-widest text-blue-500">Store Owner Credentials</p>
+                <div className="space-y-3">
+                  <input 
+                    required
+                    type="email"
+                    placeholder="Owner Email (Login Username)"
+                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm"
+                    value={formData.admin_email}
+                    onChange={e => setFormData({...formData, admin_email: e.target.value})}
+                  />
+                  <input 
+                    required
+                    type="password"
+                    placeholder="Owner Password"
+                    className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm"
+                    value={formData.admin_password}
+                    onChange={e => setFormData({...formData, admin_password: e.target.value})}
+                  />
+                </div>
+              </div>
+
               <div className="pt-4 border-t border-slate-100">
                 <p className="text-xs font-bold text-slate-400 mb-3 uppercase tracking-widest">PhonePe Integration</p>
                 <div className="space-y-3">

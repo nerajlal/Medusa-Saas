@@ -1,5 +1,5 @@
-import { defineMiddlewares } from "@medusajs/medusa"
-import type { MedusaRequest, MedusaResponse, MedusaNextFunction } from "@medusajs/medusa"
+import { defineMiddlewares } from "@medusajs/framework/http"
+import type { MedusaRequest, MedusaResponse, MedusaNextFunction } from "@medusajs/framework/http"
 import { tenantContextStorage } from "./tenant-context"
 
 export async function tenantMiddleware(
@@ -7,22 +7,29 @@ export async function tenantMiddleware(
   res: MedusaResponse,
   next: MedusaNextFunction
 ) {
-  // Extract tenant ID from header (or JWT token)
-  const tenantId = req.headers["x-tenant-id"] as string
+  // 1. Try to get tenant from user metadata (for isolated Store Owners)
+  // In Medusa v2, authenticated users have their metadata in auth_context
+  const authContext = (req as any).auth_context
+  let tenantId = authContext?.app_metadata?.tenant_id as string || authContext?.user_metadata?.tenant_id as string
+
+  // 2. Fallback to header (for Storefronts or SuperAdmins)
+  if (!tenantId) {
+    tenantId = req.headers["x-tenant-id"] as string
+  }
 
   if (tenantId) {
-    // 1. Run the entire request context within the ACL
+    // 3. Run the entire request context within the ACL
     return tenantContextStorage.run(tenantId, async () => {
-      // 2. Register in scope for logic usage
+      // 4. Register in scope for logic usage
       req.scope.register({
         tenantId: {
           resolve: () => tenantId,
         },
       })
 
-      // 3. Set Postgres Session Variable for RLS
+      // 5. Set Postgres Session Variable for RLS
       try {
-        const dbConnection = req.scope.resolve("db_connection")
+        const dbConnection = req.scope.resolve("db_connection") as any
         await dbConnection.query(`SET app.current_tenant_id = '${tenantId}'`)
       } catch (error) {
         console.error("Failed to set tenant context in DB:", error)

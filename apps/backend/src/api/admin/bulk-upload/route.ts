@@ -50,8 +50,24 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       return res.status(400).json({ error: "No product rows found in sheet" })
     }
 
-    // 4. Get tenant context
-    const tenantId = req.headers["x-tenant-id"] as string
+    // 4. Get tenant context securely from the authenticated session
+    let tenantId = req.headers["x-tenant-id"] as string
+
+    if (!tenantId && (req as any).auth_context?.actor_id) {
+       const query = req.scope.resolve("query")
+       const { data: users } = await query.graph({
+         entity: "user",
+         fields: ["metadata"],
+         filters: { id: (req as any).auth_context.actor_id }
+       })
+       if (users && users.length > 0 && users[0].metadata?.tenant_id) {
+          tenantId = users[0].metadata.tenant_id
+       }
+    }
+
+    if (!tenantId) {
+       return res.status(403).json({ error: "Unauthorized: Could not determine tenant context from session." })
+    }
 
     // 5. Prepare product data for the Workflow
     const productData = products.map((row) => ({

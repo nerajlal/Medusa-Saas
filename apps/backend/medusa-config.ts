@@ -32,8 +32,8 @@ module.exports = defineConfig({
 
     // ─── Custom: StoreSettings (tenant credentials & config) ────────────────
     {
-      resolve: './src/modules/store-settings',
-      key: 'storeSettings',
+      resolve: "./src/modules/store-settings",
+      key: "storeSettings",
     },
 
     /*

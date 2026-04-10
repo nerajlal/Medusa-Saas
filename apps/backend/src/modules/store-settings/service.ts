@@ -50,17 +50,17 @@ class StoreSettingsService extends MedusaService({
     return decrypted
   }
 
-  async createStoreTenantSettings(data: CreateStoreSettingsDTO) {
+  async createStoreTenantSettings(data: CreateStoreSettingsDTO, sharedContext?: any) {
     const { phonepe_api_key, ...rest } = data
-    return this.createStoreSettings({
+    
+    // We use the base create method from MedusaService
+    return await (this as any).createStoreSettings({
       ...rest,
       s3_prefix: `/${data.tenant_id}/`,
       phonepe_api_key_encrypted: phonepe_api_key
         ? this.encrypt(phonepe_api_key)
         : undefined,
-      created_at: new Date(),
-      updated_at: new Date(),
-    })
+    }, sharedContext)
   }
 
   async getDecryptedPhonePeCredentials(tenant_id: string) {
