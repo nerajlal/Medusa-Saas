@@ -17,6 +17,7 @@ export default function Home() {
     admin_email: "",
     admin_password: ""
   })
+  const [editingId, setEditingId] = useState<string | null>(null)
 
   // Fetch tenants on load
   useEffect(() => {
@@ -35,6 +36,37 @@ export default function Home() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const openModal = (tenant: any = null) => {
+    if (tenant) {
+      setEditingId(tenant.tenant_id)
+      setFormData({
+        tenant_id: tenant.tenant_id,
+        store_name: tenant.store_name,
+        theme: tenant.theme,
+        phonepe_merchant_id: tenant.phonepe_merchant_id || "",
+        phonepe_api_key: "", // Don't show encrypted keys
+        storefront_url: tenant.storefront_url || "",
+        custom_domain: tenant.custom_domain || "",
+        admin_email: tenant.admin_email || "",
+        admin_password: ""
+      })
+    } else {
+      setEditingId(null)
+      setFormData({
+        tenant_id: "",
+        store_name: "",
+        theme: "A",
+        phonepe_merchant_id: "",
+        phonepe_api_key: "",
+        storefront_url: "",
+        custom_domain: "",
+        admin_email: "",
+        admin_password: ""
+      })
+    }
+    setShowModal(true)
   }
 
 
@@ -60,6 +92,7 @@ export default function Home() {
           admin_email: "",
           admin_password: ""
         })
+        setEditingId(null)
       }
     } catch (e) {
       alert("Failed to create tenant")
@@ -74,7 +107,7 @@ export default function Home() {
           <p className="text-slate-500 mt-1">Multi-Tenant Management Console</p>
         </div>
         <button 
-          onClick={() => setShowModal(true)}
+          onClick={() => openModal()}
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-semibold transition-all shadow-lg shadow-blue-200"
         >
           + Add New Store
@@ -117,6 +150,12 @@ export default function Home() {
                 >
                   Manage
                 </a>
+                <button 
+                  onClick={() => openModal(tenant)}
+                  className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 rounded-xl text-sm font-bold transition-colors text-center flex items-center justify-center border border-blue-100"
+                >
+                  Edit Settings
+                </button>
                 <a 
                   href={tenant.storefront_url?.startsWith('http') ? tenant.storefront_url : `http://${tenant.storefront_url}`} 
                   target="_blank" 
@@ -137,14 +176,17 @@ export default function Home() {
       {showModal && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl p-8 overflow-hidden">
-            <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">Setup New Store</h3>
+            <h3 className="text-2xl font-bold text-slate-900 mb-6 text-center">
+              {editingId ? `Update ${formData.store_name}` : "Setup New Store"}
+            </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1">Tenant Unique ID</label>
                 <input 
                   required
+                  disabled={!!editingId}
                   placeholder="e.g. nike-shop"
-                  className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className={`w-full px-4 py-2 border border-slate-200 rounded-xl outline-none transition-all ${editingId ? 'bg-slate-50 text-slate-400 cursor-not-allowed' : 'focus:ring-2 focus:ring-blue-500'}`}
                   value={formData.tenant_id}
                   onChange={e => setFormData({...formData, tenant_id: e.target.value})}
                 />
@@ -234,7 +276,7 @@ export default function Home() {
                   type="submit"
                   className="flex-1 px-4 py-3 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
                 >
-                  Create Store
+                  {editingId ? "Save Changes" : "Create Store"}
                 </button>
               </div>
             </form>
