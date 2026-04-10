@@ -17,17 +17,36 @@ export async function tenantMiddleware(
     tenantId = req.headers["x-tenant-id"] as string
   }
 
+  // 3. Fallback to Hostname Lookup (for Custom Domains)
+  if (!tenantId) {
+    const host = req.headers.host?.split(":")[0] // remove port if present
+    if (host && host !== "localhost" && host !== "127.0.0.1") {
+      try {
+        const dbConnection = req.scope.resolve("db_connection") as any
+        const { rows } = await dbConnection.query(
+          "SELECT tenant_id FROM store_settings WHERE custom_domain = $1 OR storefront_url = $1 LIMIT 1",
+          [host]
+        )
+        if (rows.length > 0) {
+          tenantId = rows[0].tenant_id
+        }
+      } catch (e) {
+        console.error("Hostname tenant lookup failed:", e)
+      }
+    }
+  }
+
   if (tenantId) {
-    // 3. Run the entire request context within the ACL
+    // 4. Run the entire request context within the ACL
     return tenantContextStorage.run(tenantId, async () => {
-      // 4. Register in scope for logic usage
+      // 5. Register in scope for logic usage
       req.scope.register({
         tenantId: {
           resolve: () => tenantId,
         },
       })
 
-      // 5. Set Postgres Session Variable for RLS
+      // 6. Set Postgres Session Variable for RLS
       try {
         const dbConnection = req.scope.resolve("db_connection") as any
         await dbConnection.query(`SET app.current_tenant_id = '${tenantId}'`)

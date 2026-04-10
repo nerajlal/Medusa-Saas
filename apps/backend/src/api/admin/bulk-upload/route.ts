@@ -83,10 +83,11 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
         {
           title: "Default",
           sku: row.sku || `SKU-${Math.random().toString(36).substring(7)}`,
+          manage_inventory: true,
           prices: [
             {
               amount: Math.round(Number(row.price || 0) * 100), // convert to cents/paise
-              currency_code: (row.currency || "inr").toLowerCase(),
+              currency_code: (row.currency_code || row.currency || "inr").toLowerCase(),
             },
           ],
         },

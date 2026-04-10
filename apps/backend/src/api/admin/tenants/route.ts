@@ -21,6 +21,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
     theme,
     sales_channel_id,
     storefront_url,
+    custom_domain,
     phonepe_merchant_id,
     phonepe_api_key,
     phonepe_env,
@@ -41,12 +42,13 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
 
   try {
     await pgConnection.raw(`
-      INSERT INTO store_settings (id, tenant_id, store_name, theme, storefront_url, phonepe_merchant_id, phonepe_api_key_encrypted, s3_prefix, admin_email)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO store_settings (id, tenant_id, store_name, theme, storefront_url, custom_domain, phonepe_merchant_id, phonepe_api_key_encrypted, s3_prefix, admin_email)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT (tenant_id) DO UPDATE SET 
         store_name = EXCLUDED.store_name,
         theme = EXCLUDED.theme,
         storefront_url = EXCLUDED.storefront_url,
+        custom_domain = EXCLUDED.custom_domain,
         admin_email = EXCLUDED.admin_email,
         updated_at = NOW()
     `, [
@@ -55,6 +57,7 @@ export const POST = async (req: MedusaRequest, res: MedusaResponse) => {
       store_name || null, 
       theme || "A", 
       storefront_url || null, 
+      custom_domain || null,
       phonepe_merchant_id || null, 
       encryptedKey || null, 
       `/${tenant_id}/` || null,

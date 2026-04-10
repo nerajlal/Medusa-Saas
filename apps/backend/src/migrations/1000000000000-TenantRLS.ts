@@ -22,7 +22,8 @@ export class TenantRLSMigration extends Migration {
       'promotion',
       'price_list',
       'fulfillment',
-      'store'
+      'store',
+      'user'
     ];
     
     for (const table of coreTables) {
@@ -62,7 +63,7 @@ export class TenantRLSMigration extends Migration {
       'product', 'product_variant', 'product_option', 'product_collection',
       'product_type', 'product_tag', 'order', 'cart', 'line_item', 'customer',
       'payment_collection', 'payment', 'region', 'shipping_option', 'sales_channel',
-      'promotion', 'price_list', 'fulfillment', 'store'
+      'promotion', 'price_list', 'fulfillment', 'store', 'user'
     ];
     
     for (const table of coreTables) {

@@ -13,6 +13,7 @@ export default function Home() {
     phonepe_merchant_id: "",
     phonepe_api_key: "",
     storefront_url: "",
+    custom_domain: "",
     admin_email: "",
     admin_password: ""
   })
@@ -55,6 +56,7 @@ export default function Home() {
           phonepe_merchant_id: "",
           phonepe_api_key: "",
           storefront_url: "",
+          custom_domain: "",
           admin_email: "",
           admin_password: ""
         })
@@ -103,6 +105,7 @@ export default function Home() {
               <div className="space-y-2 mt-4 text-sm text-slate-600">
                 <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">Owner:</span> {tenant.admin_email || "not set"}</p>
                 <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">URL:</span> {tenant.storefront_url || "not set"}</p>
+                <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">Domain:</span> <span className="text-blue-600 font-semibold">{tenant.custom_domain || "none"}</span></p>
                 <p><span className="font-medium text-slate-400 uppercase text-[10px] mr-2">PhonePe:</span> {tenant.phonepe_merchant_id ? `Active (${tenant.phonepe_env})` : "Not Configured"}</p>
               </div>
               <div className="mt-6 flex gap-2">
@@ -170,12 +173,12 @@ export default function Home() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-1">Store URL</label>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Custom Domain</label>
                   <input 
-                    placeholder="localhost:3001"
+                    placeholder="e.g. store.com"
                     className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                    value={formData.storefront_url}
-                    onChange={e => setFormData({...formData, storefront_url: e.target.value})}
+                    value={formData.custom_domain}
+                    onChange={e => setFormData({...formData, custom_domain: e.target.value})}
                   />
                 </div>
               </div>
