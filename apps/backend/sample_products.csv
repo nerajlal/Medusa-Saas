@@ -1,0 +1,4 @@
+handle,title,subtitle,description,status,thumbnail,price,currency_code,sku,inventory_quantity
+adidas-ultraboost,Adidas Ultraboost 22,Running Shoe,Maximum energy return.,published,https://images.adidas.com/ultraboost.jpg,180,USD,AD-UB-22-BLK,50
+adidas-stan-smith,Adidas Stan Smith,Classic Sneaker,Timeless design.,published,https://images.adidas.com/stansmith.jpg,100,USD,AD-SS-CLS-WHT,100
+adidas-nmd,Adidas NMD R1,Streetwear Legend,Comfort and style.,published,https://images.adidas.com/nmd.jpg,150,USD,AD-NMD-R1-NVY,75

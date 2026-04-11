@@ -73,6 +73,10 @@ export default defineMiddlewares({
     {
       matcher: "/admin/*", // apply to admin routes (with different permission checks)
       middlewares: [tenantMiddleware],
+    },
+    {
+      matcher: "/auth/*", // apply to auth routes for tenant-aware login
+      middlewares: [tenantMiddleware],
     }
   ],
 })
