@@ -1,27 +1,9 @@
 import { fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import AddToCart from "./components/AddToCart"
 
 export default async function Home() {
-  const products = [
-    {
-      id: "prod_1",
-      title: "Midnight Chronograph",
-      thumbnail: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=1200",
-      variants: [{ prices: [{ amount: 1250000 }] }]
-    },
-    {
-      id: "prod_2",
-      title: "Onyx Leather Bag",
-      thumbnail: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1200",
-      variants: [{ prices: [{ amount: 850000 }] }]
-    },
-    {
-      id: "prod_3",
-      title: "Carbon Fiber Wallet",
-      thumbnail: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=1200",
-      variants: [{ prices: [{ amount: 150000 }] }]
-    }
-  ]
+  const products = await fetchProducts()
 
 
   return (
@@ -50,26 +32,33 @@ export default async function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {products?.map((product: any) => (
-              <a href={`/products/${product.handle || product.id}`} key={product.id} className="group flex flex-col items-center text-center">
-                <div className="aspect-[4/5] w-full bg-neutral-900/50 border border-white/5 relative overflow-hidden mb-10 group-hover:border-white/20 transition-all duration-1000 shadow-2xl">
-                  <Image 
-                    src={product.thumbnail || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000"} 
-                    alt={product.title}
-                    fill
-                    className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000 ease-in-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40" />
-                </div>
+              <div key={product.id} className="group flex flex-col items-center text-center">
+                <a href={`/products/${product.handle || product.id}`} className="w-full">
+                  <div className="aspect-[4/5] w-full bg-neutral-900/50 border border-white/5 relative overflow-hidden mb-10 group-hover:border-white/20 transition-all duration-1000 shadow-2xl">
+                    <Image 
+                      src={product.thumbnail || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000"} 
+                      alt={product.title}
+                      fill
+                      className="object-cover opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000 ease-in-out"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40" />
+                  </div>
+                </a>
                 <h3 className="text-xs font-black uppercase tracking-[0.3em] text-neutral-400 group-hover:text-white transition-colors mb-2">{product.title}</h3>
-                <span className="text-sm font-light text-neutral-500 italic">
+                <span className="text-sm font-light text-neutral-500 italic mb-6 block">
                   {product.variants?.[0]?.prices?.[0]?.amount 
                     ? `₹${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
                     : "By Appointment"}
                 </span>
-              </a>
+
+                {product.variants?.[0]?.id && (
+                  <AddToCart variantId={product.variants[0].id} />
+                )}
+              </div>
             ))}
           </div>
         </section>
+
 
         {/* SECTION 3: ATELIER STORY */}
         <section className="py-60 border-t border-white/5 flex justify-center">

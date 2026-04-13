@@ -1,27 +1,9 @@
 import { fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import AddToCart from "./components/AddToCart"
 
 export default async function Home() {
-  const products = [
-    {
-      id: "prod_1",
-      title: "Ceramic Minimalist Vase",
-      thumbnail: "https://images.unsplash.com/photo-1581591524425-c7e0978865fc?auto=format&fit=crop&w=800&q=80",
-      variants: [{ prices: [{ amount: 4500 }] }]
-    },
-    {
-      id: "prod_2",
-      title: "Matte Black Desk Lamp",
-      thumbnail: "https://images.unsplash.com/photo-1534073828943-f801091bb18c?auto=format&fit=crop&w=800&q=80",
-      variants: [{ prices: [{ amount: 7200 }] }]
-    },
-    {
-      id: "prod_3",
-      title: "Wool Texture Throw",
-      thumbnail: "https://images.unsplash.com/photo-1580301762395-21ce84d00bc6?auto=format&fit=crop&w=800&q=80",
-      variants: [{ prices: [{ amount: 3800 }] }]
-    }
-  ]
+  const products = await fetchProducts()
 
 
   return (
@@ -97,18 +79,20 @@ export default async function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-16 gap-y-40">
             {products?.map((product: any) => (
-              <a href={`/products/${product.handle || product.id}`} key={product.id} className="group cursor-pointer">
-                <div className="aspect-[4/5] bg-white relative overflow-hidden mb-12 rounded-sm border border-slate-100 transition-all duration-1000 group-hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)]">
-                  <Image 
-                    src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1200"} 
-                    alt={product.title}
-                    fill
-                    className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-in-out"
-                  />
-                  <div className="absolute top-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                     <span className="bg-black text-white text-[9px] font-black px-3 py-1 uppercase tracking-widest">Detail View</span>
+              <div key={product.id} className="group cursor-pointer">
+                <a href={`/products/${product.handle || product.id}`}>
+                  <div className="aspect-[4/5] bg-white relative overflow-hidden mb-12 rounded-sm border border-slate-100 transition-all duration-1000 group-hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)]">
+                    <Image 
+                      src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1200"} 
+                      alt={product.title}
+                      fill
+                      className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-in-out"
+                    />
+                    <div className="absolute top-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                       <span className="bg-black text-white text-[9px] font-black px-3 py-1 uppercase tracking-widest">Detail View</span>
+                    </div>
                   </div>
-                </div>
+                </a>
                 <div className="flex flex-col gap-4">
                   <div className="flex justify-between items-baseline">
                     <h4 className="text-xl font-black uppercase tracking-tight text-black">{product.title}</h4>
@@ -119,15 +103,21 @@ export default async function Home() {
                     </span>
                   </div>
                   <div className="h-[2px] w-full bg-black/5" />
-                  <div className="flex justify-between items-center">
+                  
+                  {product.variants?.[0]?.id && (
+                    <AddToCart variantId={product.variants[0].id} />
+                  )}
+
+                  <div className="flex justify-between items-center mt-2">
                     <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.4em]">In Store / Limited</p>
                     <span className="text-[10px] font-mono text-slate-200 uppercase">#00{product.id?.slice(-2)}</span>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </section>
+
 
         {/* SECTION 3: GALLERY DETAIL (ELEVATED) */}
         <section className="py-72 relative">

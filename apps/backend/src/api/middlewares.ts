@@ -2,6 +2,9 @@ import { defineMiddlewares } from "@medusajs/framework/http"
 import type { MedusaRequest, MedusaResponse, MedusaNextFunction } from "@medusajs/framework/http"
 import { tenantContextStorage } from "./tenant-context"
 
+import fs from "fs"
+import path from "path"
+
 export async function tenantMiddleware(
   req: MedusaRequest,
   res: MedusaResponse,
@@ -22,7 +25,7 @@ export async function tenantMiddleware(
     const host = req.headers.host?.split(":")[0] // remove port if present
     if (host && host !== "localhost" && host !== "127.0.0.1") {
       try {
-        const dbConnection = req.scope.resolve("db_connection") as any
+        const dbConnection = req.scope.resolve("__pg_connection__") as any
         const { rows } = await dbConnection.query(
           "SELECT tenant_id FROM store_settings WHERE custom_domain = $1 OR storefront_url = $1 LIMIT 1",
           [host]
@@ -48,8 +51,11 @@ export async function tenantMiddleware(
 
       // 6. Set Postgres Session Variable for RLS
       try {
-        const dbConnection = req.scope.resolve("db_connection") as any
-        await dbConnection.query(`SET app.current_tenant_id = '${tenantId}'`)
+        const dbConnection = req.scope.resolve("__pg_connection__") as any
+        console.log("DB_CONNECTION_KEYS:", Object.keys(dbConnection))
+        if (dbConnection.query) await dbConnection.query(`SET app.current_tenant_id = '${tenantId}'`)
+        else if (dbConnection.raw) await dbConnection.raw(`SET app.current_tenant_id = '${tenantId}'`)
+        else console.error("No query or raw method found on dbConnection")
       } catch (error) {
         console.error("Failed to set tenant context in DB:", error)
         return res.status(500).json({ error: "Internal server error (Tenant Context)" })

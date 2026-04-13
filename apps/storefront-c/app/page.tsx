@@ -1,33 +1,9 @@
 import { fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import AddToCart from "./components/AddToCart"
 
 export default async function Home() {
-  const products = [
-    {
-      id: "prod_1",
-      title: "Nitro Boost Running Shoe",
-      thumbnail: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200",
-      variants: [{ prices: [{ amount: 890000 }] }]
-    },
-    {
-      id: "prod_2",
-      title: "Active-Flow Gym Bag",
-      thumbnail: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200",
-      variants: [{ prices: [{ amount: 340000 }] }]
-    },
-    {
-      id: "prod_3",
-      title: "Hydra-Guard Water Bottle",
-      thumbnail: "https://images.unsplash.com/photo-1602143303429-b84882047dfd?auto=format&fit=crop&w=1200",
-      variants: [{ prices: [{ amount: 120000 }] }]
-    },
-    {
-      id: "prod_4",
-      title: "Focus-Tech Headphones",
-      thumbnail: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200",
-      variants: [{ prices: [{ amount: 1990000 }] }]
-    }
-  ]
+  const products = await fetchProducts()
 
 
   return (
@@ -85,34 +61,38 @@ export default async function Home() {
              </div>
              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                {products?.map((product: any) => (
-                 <a href={`/products/${product.handle || product.id}`} key={product.id} className="bg-slate-50 rounded-[2rem] p-4 group border border-transparent hover:border-blue-100 transition-all hover:bg-white hover:shadow-2xl hover:shadow-slate-200/40">
-                   <div className="aspect-square relative overflow-hidden mb-6 rounded-2xl bg-white flex items-center justify-center">
-                     <Image 
-                       src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"} 
-                       alt={product.title}
-                       fill
-                       className="object-cover group-hover:scale-110 transition-all duration-500 ease-in-out"
-                     />
-                     <div className="absolute top-4 left-4 bg-blue-600 text-white text-[9px] font-black uppercase px-3 py-1 rounded-full">Top Rated</div>
-                   </div>
+                 <div key={product.id} className="bg-slate-50 rounded-[2rem] p-4 group border border-transparent hover:border-blue-100 transition-all hover:bg-white hover:shadow-2xl hover:shadow-slate-200/40">
+                   <a href={`/products/${product.handle || product.id}`}>
+                    <div className="aspect-square relative overflow-hidden mb-6 rounded-2xl bg-white flex items-center justify-center">
+                      <Image 
+                        src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"} 
+                        alt={product.title}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-all duration-500 ease-in-out"
+                      />
+                      <div className="absolute top-4 left-4 bg-blue-600 text-white text-[9px] font-black uppercase px-3 py-1 rounded-full">Top Rated</div>
+                    </div>
+                   </a>
                    <div className="px-1">
                       <h3 className="text-xs font-black line-clamp-1 mb-4 group-hover:text-blue-600 transition-colors uppercase tracking-tight">{product.title}</h3>
-                      <div className="flex justify-between items-center">
-                         <span className="text-lg font-black italic">
-                            {product.variants?.[0]?.prices?.[0]?.amount 
-                              ? `₹${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
-                              : "Sold Out"}
-                         </span>
-                         <button className="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center hover:bg-blue-600 transition-colors shadow-lg">
-                           +
-                         </button>
+                      <div className="mb-6">
+                          <span className="text-lg font-black italic block">
+                             {product.variants?.[0]?.prices?.[0]?.amount 
+                               ? `₹${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
+                               : "Sold Out"}
+                          </span>
                       </div>
+                      
+                      {product.variants?.[0]?.id && (
+                        <AddToCart variantId={product.variants[0].id} />
+                      )}
                    </div>
-                 </a>
+                 </div>
                ))}
              </div>
           </div>
         </section>
+
 
         {/* SECTION 4: TRUST BADGES */}
         <section className="mb-32 grid grid-cols-1 md:grid-cols-3 gap-12">
