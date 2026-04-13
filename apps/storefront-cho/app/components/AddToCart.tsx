@@ -15,7 +15,7 @@ export default function AddToCart({
   const [added, setAdded] = useState(false)
   const { refreshCart } = useCart()
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (retry = true) => {
     setLoading(true)
     try {
       let cartId = localStorage.getItem("cart_id")
@@ -30,9 +30,14 @@ export default function AddToCart({
       setTimeout(() => setAdded(false), 2000)
     } catch (e) {
       console.error(e)
-      alert("Failed to add to cart")
+      if (retry) {
+        localStorage.removeItem("cart_id")
+        await handleAddToCart(false)
+      } else {
+        alert("Failed to add to cart")
+      }
     } finally {
-      setLoading(false)
+      if (retry) setLoading(false)
     }
   }
 

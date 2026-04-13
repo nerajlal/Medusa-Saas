@@ -46,6 +46,7 @@ export async function fetchProduct(handle: string) {
   }
 }
 
+const REGION_ID = process.env.NEXT_PUBLIC_REGION_ID || ""
 
 export async function createCart() {
   const res = await fetch(`${BACKEND_URL}/store/carts`, {
@@ -55,7 +56,10 @@ export async function createCart() {
       "x-publishable-api-key": PUBLISHABLE_KEY,
       "x-tenant-id": TENANT_ID,
     },
-    body: JSON.stringify({ sales_channel_id: SALES_CHANNEL_ID }),
+    body: JSON.stringify({ 
+      sales_channel_id: SALES_CHANNEL_ID,
+      region_id: REGION_ID
+    }),
   })
   if (!res.ok) {
      const error = await res.json()
