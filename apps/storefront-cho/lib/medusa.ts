@@ -7,7 +7,6 @@ const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
 export async function fetchProducts(params: Record<string, string> = {}) {
   try {
     const query = new URLSearchParams({
-      sales_channel_id: SALES_CHANNEL_ID,
       ...params,
     }).toString()
 
@@ -117,4 +116,28 @@ export async function fetchCollectionByHandle(handle: string) {
   return data.collections?.[0] || null
 }
 
+export async function deleteLineItem(cartId: string, itemId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/line-items/${itemId}`, {
+    method: "DELETE",
+    headers: {
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+  })
+  if (!res.ok) throw new Error("Failed to delete line item")
+  return res.json()
+}
 
+export async function updateLineItem(cartId: string, itemId: string, quantity: number) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/line-items/${itemId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+    body: JSON.stringify({ quantity }),
+  })
+  if (!res.ok) throw new Error("Failed to update line item")
+  return res.json()
+}

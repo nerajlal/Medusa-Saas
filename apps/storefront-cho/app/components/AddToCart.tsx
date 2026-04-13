@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { createCart, addLineItem } from "@/lib/medusa"
+import { useCart } from "./CartProvider"
 
 export default function AddToCart({ 
   variantId, 
@@ -12,6 +13,7 @@ export default function AddToCart({
 }) {
   const [loading, setLoading] = useState(false)
   const [added, setAdded] = useState(false)
+  const { refreshCart } = useCart()
 
   const handleAddToCart = async () => {
     setLoading(true)
@@ -23,6 +25,7 @@ export default function AddToCart({
         localStorage.setItem("cart_id", cartId!)
       }
       await addLineItem(cartId!, variantId, 1)
+      await refreshCart()
       setAdded(true)
       setTimeout(() => setAdded(false), 2000)
     } catch (e) {

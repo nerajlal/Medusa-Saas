@@ -1,66 +1,78 @@
 import { fetchCollectionByHandle, fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import Link from "next/link"
+import Header from "@/app/components/Header"
+import Footer from "@/app/components/Footer"
+import AddToCart from "@/app/components/AddToCart"
 
-export default async function CollectionPage({ params }: { params: { handle: string } }) {
-  const collection = await fetchCollectionByHandle(params.handle)
-  const { products } = await fetchProducts()
+export default async function CollectionPage({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params
+  const collection = await fetchCollectionByHandle(handle)
+  const products = await fetchProducts({ collection_id: collection?.id })
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <main className="max-w-7xl mx-auto px-6 py-20">
-        <header className="mb-24 flex justify-between items-end">
-          <div className="max-w-xl">
-             <span className="text-blue-600 font-black uppercase tracking-widest text-[10px] mb-4 block">Official Series / {collection?.id || "CAT-001"}</span>
-             <h1 className="text-8xl font-black italic tracking-tighter uppercase leading-none mb-8">{collection?.title || "The Vault"}</h1>
-             <p className="text-lg text-slate-400 font-medium leading-relaxed">
-                {collection?.description || "Explore our most popular performance gear. High-demand items curated for the modern athlete and enthusiast."}
+    <div className="min-h-screen bg-background">
+      <Header />
+      
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20">
+        <header className="mb-16">
+          <div className="max-w-3xl">
+             <span className="text-primary font-black uppercase tracking-widest text-[10px] mb-4 block">
+               Wholesale Category / {collection?.title || "Exclusive"}
+             </span>
+             <h1 className="text-4xl md:text-6xl font-black tracking-tight text-foreground mb-6">
+               {collection?.title || "Premium Collection"}
+             </h1>
+             <p className="text-lg text-secondary-text font-medium leading-relaxed max-w-2xl">
+                {collection?.description || "Explore our premium selection of imported snacks and chocolates. Bulk orders available with next-day delivery across the UAE."}
              </p>
-          </div>
-          <div className="flex gap-4">
-             <button className="bg-white border border-slate-200 px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:border-blue-600 transition-all">Filter</button>
-             <button className="bg-white border border-slate-200 px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:border-blue-600 transition-all">Sort</button>
           </div>
         </header>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-           {products?.map((product: any) => (
-             <a href={`/products/${product.handle || product.id}`} key={product.id} className="bg-white rounded-[2.5rem] p-6 border border-slate-100 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10 transition-all group flex flex-col h-full shadow-lg shadow-slate-200/40">
-                <div className="aspect-square bg-slate-50 relative overflow-hidden mb-8 rounded-[1.5rem] flex items-center justify-center">
-                   <Image 
-                      src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"} 
+        <section className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+           {products?.length > 0 ? (
+             products.map((product: any) => (
+               <div key={product.id} className="group bg-card-bg rounded-2xl border border-gray-200 overflow-hidden hover:border-primary hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col">
+                 <Link href={`/products/${product.handle}`} className="aspect-square relative bg-white p-4 overflow-hidden">
+                    <Image 
+                      src={product.thumbnail || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"} 
                       alt={product.title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-all duration-700 ease-in-out"
-                   />
-                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-900 border border-slate-100">
-                      ⚡ Quick Buy
-                   </div>
-                </div>
-                
-                <h3 className="text-sm font-black text-slate-800 line-clamp-1 mb-4 group-hover:text-blue-600 transition-colors uppercase italic">{product.title}</h3>
-                
-                <div className="mt-auto flex items-center justify-between border-t border-slate-50 pt-6">
-                  <span className="text-xl font-black italic text-slate-900 leading-none pt-1">
-                    {product.variants?.[0]?.prices?.[0]?.amount 
-                      ? `₹${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
-                      : "Out of Stock"}
-                  </span>
-                  <button className="bg-blue-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-900 transition-colors shadow-lg">
-                    →
-                  </button>
-                </div>
-             </a>
-           ))}
+                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    />
+                 </Link>
+                 
+                 <div className="p-4 flex-1 flex flex-col justify-between border-t border-gray-50 bg-gray-50/50">
+                    <Link href={`/products/${product.handle}`}>
+                       <span className="text-[10px] font-bold text-secondary-text uppercase tracking-wider mb-1 block">
+                          {product.title.split(' ')[0]}
+                       </span>
+                       <h4 className="text-sm font-bold text-foreground leading-snug mb-3 line-clamp-2 hover:text-primary transition-colors">{product.title}</h4>
+                    </Link>
+                    <div className="flex items-center justify-between mt-auto">
+                       <span className="text-lg font-black text-foreground">
+                        {product.variants?.[0]?.prices?.[0]?.amount 
+                          ? `AED ${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
+                          : "Out of Stock"}
+                       </span>
+                    </div>
+                    {product.variants?.[0]?.id && (
+                      <div className="mt-4">
+                         <AddToCart variantId={product.variants[0].id} variant="choco" />
+                      </div>
+                    )}
+                 </div>
+               </div>
+             ))
+           ) : (
+             <div className="col-span-full py-20 text-center">
+                <p className="text-gray-400 font-medium italic">No products found in this collection.</p>
+             </div>
+           )}
         </section>
-
-        <footer className="mt-40 bg-slate-900 rounded-[3rem] p-16 flex flex-col items-center text-center">
-            <h3 className="text-4xl font-black text-white italic mb-6">Need more options?</h3>
-            <p className="text-slate-400 font-medium mb-10 max-w-sm">Contact our live concierge for product sourcing and bulk orders in your region.</p>
-            <button className="bg-blue-600 text-white px-10 py-5 rounded-3xl text-sm font-black uppercase tracking-widest hover:bg-blue-500 transition-all shadow-2xl shadow-blue-500/30">
-               Support Ticket
-            </button>
-        </footer>
       </main>
+
+      <Footer />
     </div>
   )
 }

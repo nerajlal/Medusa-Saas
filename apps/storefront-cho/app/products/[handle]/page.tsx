@@ -1,114 +1,148 @@
-import { fetchProduct } from "@/lib/medusa"
+import { fetchProduct, fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import Link from "next/link"
+import Header from "@/app/components/Header"
+import Footer from "@/app/components/Footer"
+import AddToCart from "@/app/components/AddToCart"
 
-export default async function ProductPage({ params }: { params: { handle: string } }) {
-  const product = await fetchProduct(params.handle)
+export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params
+  const product = await fetchProduct(handle)
+  const relatedProducts = await fetchProducts({ limit: "5" })
 
   if (!product) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50">
-        <h1 className="text-9xl font-black text-slate-200 mb-8 italic">404</h1>
-        <p className="text-slate-400 font-bold uppercase tracking-widest">Product not found in this region.</p>
-        <a href="/" className="mt-8 bg-blue-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest">Back to Store</a>
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-xl font-bold">Product not found</p>
       </div>
     )
   }
 
+  const variant = product.variants?.[0]
+  const price = variant?.prices?.[0]?.amount 
+    ? `AED ${(variant.prices[0].amount / 100).toLocaleString()}` 
+    : "Out of Stock"
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        <div className="bg-white rounded-[3rem] p-8 md:p-16 border border-slate-100 shadow-2xl shadow-slate-200/50">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-            {/* PRODUCT IMAGES */}
-            <div className="space-y-6">
-               <div className="aspect-square bg-slate-50 rounded-[2.5rem] relative overflow-hidden border border-slate-100">
-                  <Image 
-                    src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200"} 
-                    alt={product.title}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute top-6 left-6 bg-blue-600 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
-                    In Stock / Ready to Ship
+    <div className="min-h-screen bg-background text-foreground">
+      <Header />
+      
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          
+          {/* Left: Product Images */}
+          <div className="space-y-6">
+            <div className="aspect-square bg-white rounded-[2rem] border border-gray-100 overflow-hidden relative shadow-sm">
+              <Image 
+                src={product.thumbnail || product.images?.[0]?.url || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"} 
+                alt={product.title}
+                fill
+                className="object-contain p-8 md:p-12 hover:scale-105 transition-transform duration-700 font-sans"
+              />
+            </div>
+            {product.images?.length > 1 && (
+              <div className="grid grid-cols-4 gap-4">
+                {product.images.slice(0, 4).map((img: any, i: number) => (
+                  <div key={i} className="aspect-square bg-white rounded-xl border border-gray-100 overflow-hidden relative hover:border-primary transition-colors cursor-pointer shadow-sm">
+                    <Image src={img.url} alt={product.title} fill className="object-contain p-2" />
                   </div>
-               </div>
-               <div className="grid grid-cols-4 gap-4">
-                  {[1,2,3,4].map(i => (
-                     <div key={i} className="aspect-square bg-slate-50 rounded-2xl border border-slate-100 opacity-50 hover:opacity-100 cursor-pointer transition-opacity" />
-                  ))}
-               </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right: Product Info */}
+          <div className="sticky top-32 space-y-8">
+            <div>
+              <nav className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-secondary-text mb-6">
+                 <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+                 <span>/</span>
+                 {product.collection && (
+                   <>
+                    <Link href={`/collections/${product.collection.handle}`} className="hover:text-primary transition-colors">{product.collection.title}</Link>
+                    <span>/</span>
+                   </>
+                 )}
+                 <span className="text-gray-400">Products</span>
+              </nav>
+              
+              <h1 className="text-4xl md:text-5xl font-black tracking-tight text-foreground mb-4 uppercase leading-none italic">
+                {product.title}
+              </h1>
+              
+              <div className="flex items-center gap-4 mb-8">
+                <span className="text-3xl font-black text-foreground">{price}</span>
+                <span className="px-3 py-1 bg-green-50 text-green-600 text-[10px] font-black uppercase rounded-full border border-green-200">
+                  In Stock (24h Delivery)
+                </span>
+              </div>
+
+              <div className="prose prose-sm text-secondary-text font-medium leading-relaxed max-w-none mb-10">
+                <p>{product.description || "Premium imported product curated for quality and taste. Perfect for retail or hospitality business looking for high-end snacks."}</p>
+              </div>
+
+              {variant && (
+                <div className="space-y-6 border-t border-gray-100 pt-8">
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex-1">
+                       <AddToCart variantId={variant.id} variant="choco" />
+                    </div>
+                    <a href={`https://wa.me/+971553924347?text=Hi, I'm interested in ${product.title}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center bg-green-50 text-green-600 hover:bg-green-100 px-8 py-4 rounded-full text-xs font-black uppercase tracking-widest transition-colors border border-green-200">
+                      Bulk Inquiry
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* PRODUCT BUY BOX */}
-            <div className="flex flex-col">
-               <div className="flex justify-between items-start mb-6">
-                  <div>
-                     <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-2 block">Performance / Gear</span>
-                     <h1 className="text-5xl font-black italic tracking-tighter leading-none mb-4">{product.title}</h1>
-                     <div className="flex items-center gap-2 text-amber-500">
-                        <span>★★★★★</span>
-                        <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest hover:text-slate-900 cursor-pointer">(128 Reviews)</span>
-                     </div>
-                  </div>
-                  <div className="bg-slate-50 p-4 rounded-3xl">
-                     <span className="text-3xl font-black italic">
-                        {product.variants?.[0]?.prices?.[0]?.amount 
-                          ? `₹${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
-                          : "Sold Out"}
-                     </span>
-                  </div>
-               </div>
-
-               <p className="text-slate-400 font-medium leading-relaxed mb-10 border-l-4 border-blue-600 pl-6">
-                  {product.description || "The ultimate performance upgrade. Designed for high-impact use-cases and tested in extreme conditions. Lightweight, durable, and conversion-ready."}
-               </p>
-
-               <div className="space-y-8 mb-12">
-                  <div>
-                     <h4 className="text-[11px] font-black uppercase tracking-widest mb-4">Select Option</h4>
-                     <div className="flex gap-3">
-                        {['S', 'M', 'L', 'XL'].map(size => (
-                           <button key={size} className="w-12 h-12 rounded-xl border border-slate-200 text-xs font-black hover:border-blue-600 hover:text-blue-600 transition-all">{size}</button>
-                        ))}
-                     </div>
-                  </div>
-               </div>
-
-               <div className="flex gap-4 mt-auto">
-                  <button className="flex-1 bg-blue-600 text-white py-6 rounded-3xl text-sm font-black uppercase tracking-widest shadow-2xl shadow-blue-500/30 hover:bg-blue-700 transition-all active:scale-95">
-                     Add to Cart • Instant Checkout
-                  </button>
-                  <button className="w-16 h-16 bg-slate-900 text-white rounded-3xl flex items-center justify-center hover:bg-slate-800 transition-colors shadow-xl">
-                     ♡
-                  </button>
-               </div>
-
-               <div className="mt-12 grid grid-cols-2 gap-4">
-                  <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
-                     <span className="text-xl">✈️</span>
-                     <span className="text-[10px] font-black uppercase tracking-tight text-slate-500">Fast Express Shipping</span>
-                  </div>
-                  <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
-                     <span className="text-xl">🛡️</span>
-                     <span className="text-[10px] font-black uppercase tracking-tight text-slate-500">2-Year Full Warranty</span>
-                  </div>
+            {/* Product Details Table */}
+            <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
+               <h3 className="text-xs font-black uppercase tracking-widest text-gray-500 mb-2 font-sans">Specifications</h3>
+               <div className="grid grid-cols-2 gap-y-3 text-sm">
+                  <span className="text-gray-400">SKU:</span>
+                  <span className="font-bold text-foreground">{variant?.sku || "N/A"}</span>
+                  <span className="text-gray-400">Weight:</span>
+                  <span className="font-bold text-foreground">{variant?.weight ? `${variant.weight}g` : "N/A"}</span>
+                  <span className="text-gray-400">Material:</span>
+                  <span className="font-bold text-foreground">{product.material || "Food Grade"}</span>
                </div>
             </div>
           </div>
         </div>
 
-        {/* TECH SPECS TABS */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-           {['Materials', 'Care Instructions', 'Sustainability'].map(title => (
-              <div key={title} className="bg-white p-8 rounded-[2rem] border border-slate-100 hover:shadow-xl transition-shadow">
-                 <h4 className="text-xs font-black uppercase tracking-widest mb-4 text-blue-600">{title}</h4>
-                 <p className="text-xs text-slate-400 font-medium leading-relaxed">
-                    Designed with high-performance synthetic blends to ensure maximum durability and breathability in all conditions.
-                 </p>
-              </div>
-           ))}
-        </div>
+        {/* Related Products */}
+        <section className="mt-32">
+           <div className="flex justify-between items-center mb-10">
+              <h2 className="text-2xl font-black tracking-tight text-foreground italic uppercase">You Might Also Like</h2>
+              <div className="h-px bg-gray-100 flex-1 mx-8 hidden md:block"></div>
+           </div>
+           
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {relatedProducts.filter((p: any) => p.id !== product.id).slice(0, 4).map((rp: any) => (
+                <Link key={rp.id} href={`/products/${rp.handle}`} className="group space-y-4">
+                   <div className="aspect-square bg-white rounded-2xl border border-gray-100 overflow-hidden relative group-hover:border-primary transition-all">
+                      <Image 
+                        src={rp.thumbnail || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"} 
+                        alt={rp.title} 
+                        fill 
+                        className="object-contain p-4 group-hover:scale-105 transition-transform" 
+                      />
+                   </div>
+                   <div>
+                      <h4 className="text-sm font-bold text-foreground line-clamp-1 group-hover:text-primary transition-colors">{rp.title}</h4>
+                      <p className="text-xs font-medium text-secondary-text">
+                        {rp.variants?.[0]?.prices?.[0]?.amount 
+                          ? `AED ${(rp.variants[0].prices[0].amount / 100).toLocaleString()}` 
+                          : "Stock Soon"}
+                      </p>
+                   </div>
+                </Link>
+              ))}
+           </div>
+        </section>
       </main>
+
+      <Footer />
     </div>
   )
 }
