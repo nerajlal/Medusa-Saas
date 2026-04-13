@@ -19,8 +19,9 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
   }
 
   const variant = product.variants?.[0]
-  const price = variant?.prices?.[0]?.amount 
-    ? `AED ${(variant.prices[0].amount / 100).toLocaleString()}` 
+  const aedPrice = variant?.prices?.find((p: any) => p.currency_code === "aed")
+  const price = aedPrice 
+    ? `AED ${(aedPrice.amount / 100).toLocaleString()}` 
     : "Out of Stock"
 
   return (
