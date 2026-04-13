@@ -146,3 +146,76 @@ export async function updateLineItem(cartId: string, itemId: string, quantity: n
   if (!res.ok) throw new Error("Failed to update line item")
   return res.json()
 }
+
+export async function updateCart(cartId: string, data: any) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) throw new Error("Failed to update cart")
+  return res.json()
+}
+
+export async function fetchShippingOptions(cartId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/shipping-options?cart_id=${cartId}`, {
+    headers: {
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+  })
+  if (!res.ok) return { shipping_options: [] }
+  return res.json()
+}
+
+export async function addShippingMethod(cartId: string, optionId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/shipping-methods`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+    body: JSON.stringify({ option_id: optionId }),
+  })
+  if (!res.ok) throw new Error("Failed to add shipping method")
+  return res.json()
+}
+
+export async function initiatePaymentSession(cartId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/payment-collections`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+    body: JSON.stringify({ cart_id: cartId }),
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    console.error("Failed to init payment session:", err)
+    throw new Error("Failed to init payment session")
+  }
+  return res.json()
+}
+
+export async function completeCart(cartId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/complete`, {
+    method: "POST",
+    headers: {
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+  })
+  if (!res.ok) {
+     const err = await res.json()
+     console.error("Failed to complete cart:", err)
+     throw new Error("Failed to complete cart")
+  }
+  return res.json()
+}

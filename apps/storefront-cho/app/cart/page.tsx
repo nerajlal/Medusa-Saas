@@ -133,14 +133,12 @@ export default function CartPage() {
                   </div>
                   
                   <div className="flex flex-col gap-4">
-                     <a 
-                       href={generateWhatsAppLink()}
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       className="bg-primary hover:bg-primary-hover text-white px-10 py-5 rounded-2xl text-sm font-black uppercase tracking-widest transition-all shadow-xl shadow-primary/30 text-center"
+                     <Link 
+                       href="/checkout"
+                       className="bg-primary hover:bg-primary-hover text-white px-10 py-5 rounded-2xl text-sm font-black uppercase tracking-widest transition-all shadow-xl shadow-primary/30 text-center inline-block"
                      >
-                        Confirm Order on WhatsApp
-                     </a>
+                        Proceed to Checkout
+                     </Link>
                      <Link href="/" className="text-center text-xs font-bold text-gray-400 hover:text-white transition-colors">
                         ← Continue Shopping
                      </Link>
