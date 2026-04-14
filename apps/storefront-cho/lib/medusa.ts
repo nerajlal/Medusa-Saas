@@ -109,6 +109,18 @@ export async function fetchCollections() {
   return res.json()
 }
 
+export async function fetchProductCategories() {
+  const res = await fetch(`${BACKEND_URL}/store/product-categories`, {
+    headers: {
+      "x-publishable-api-key": PUBLISHABLE_KEY,
+      "x-tenant-id": TENANT_ID,
+    },
+    next: { revalidate: 60 },
+  })
+  if (!res.ok) return { product_categories: [] }
+  return res.json()
+}
+
 export async function fetchCollectionByHandle(handle: string) {
   const res = await fetch(`${BACKEND_URL}/store/collections?handle=${handle}`, {
     headers: {

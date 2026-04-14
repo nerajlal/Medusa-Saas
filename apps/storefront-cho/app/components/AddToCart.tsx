@@ -47,29 +47,21 @@ export default function AddToCart({
     <button 
       onClick={handleAddToCart}
       disabled={loading}
-      className={`relative w-full py-4 overflow-hidden rounded-full transition-all duration-300 transform active:scale-95 ${
+      className={`relative w-full py-4 overflow-hidden rounded-2xl transition-all duration-300 active:scale-[0.98] ${
         added 
-          ? "bg-emerald-500 scale-105" 
-          : isChoco 
-            ? "bg-primary hover:bg-primary-hover text-foreground hover:shadow-xl font-black" 
-            : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg text-white"
+          ? "bg-green-500 text-white" 
+          : "bg-primary text-black hover:bg-primary-hover shadow-sm"
       }`}
     >
        <div className="flex items-center justify-center gap-3">
           {loading ? (
-            <div className={`w-4 h-4 border-2 rounded-full animate-spin ${
-              isChoco ? "border-foreground/30 border-t-foreground" : "border-white/30 border-t-white"
-            }`} />
+            <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
           ) : (
-            <span className="text-[12px] font-black uppercase tracking-tighter">
-               {added ? "READY IN CART ✓" : "ADD TO BOX"}
+            <span className="text-[14px] font-black uppercase tracking-tighter">
+               {added ? "Added to Cart ✓" : "Add to cart"}
             </span>
           )}
        </div>
-       
-       {!added && !loading && !isChoco && (
-          <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full m-3 animate-pulse" />
-       )}
     </button>
   )
 }

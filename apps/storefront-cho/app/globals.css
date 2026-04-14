@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAFAFA;
-  --foreground: #0F172A;
-  --primary: #EA580C;
-  --primary-hover: #C2410C;
-  --secondary-text: #64748B;
-  --card-bg: #FFFFFF;
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --primary: #FBDD08;
+  --primary-hover: #E5C907;
+  --secondary-text: #4B5563;
+  --card-bg: #F9FAFB;
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.05);
 }
 
 @theme inline {
@@ -25,6 +27,37 @@ body {
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+@layer utilities {
+  .glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--foreground) 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-mesh {
+    background-color: var(--background);
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(249, 115, 22, 0.05) 0px, transparent 50%);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
 }
 
 /* Hide scrollbar for category menu */

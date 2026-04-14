@@ -1,109 +1,137 @@
-import { fetchProducts } from "@/lib/medusa"
+import { fetchProducts, fetchProductCategories } from "@/lib/medusa"
 import Image from "next/image"
 import Link from "next/link"
 import AddToCart from "./components/AddToCart"
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 
-export default async function Home() {
-  const products = await fetchProducts()
+export default async function Home(props: { searchParams: Promise<{ category?: string }> }) {
+  const searchParams = await props.searchParams;
+  const selectedCategoryHandle = searchParams.category;
 
-  // Chocolayt categories
-  const categories = [
-    { name: "Chocolates", count: 12 },
-    { name: "Jellies", count: 24 },
-    { name: "Candies", count: 8 },
-    { name: "Marshmallow", count: 18 },
-    { name: "Wafers & Cake", count: 15 },
-    { name: "Biscuits", count: 32 },
-    { name: "Bubble Gum", count: 5 }
-  ];
+  const { product_categories } = await fetchProductCategories()
+  
+  // Filter products by category if one is selected
+  const productParams: Record<string, string> = {}
+  if (selectedCategoryHandle) {
+    const selectedCat = product_categories.find((c: any) => c.handle === selectedCategoryHandle)
+    if (selectedCat) {
+      productParams.category_id = selectedCat.id
+    }
+  }
+  
+  const products = await fetchProducts(productParams)
+
+  // Map emojis to categories for the circular nav
+  const categoryIconMap: Record<string, string> = {
+    "fresh-produce": "🍎",
+    "pantry": "🍞",
+    "chocolates": "🍫",
+    "jellies": "🍮",
+    "candies": "🍬",
+    "marshmallow": "🍥",
+    "wafers-cake": "🍰",
+    "biscuits": "🍪",
+    "bubble-gum": "🎈"
+  };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Hero / Banner */}
-      <section className="bg-foreground text-white py-12 md:py-20 px-6 relative overflow-hidden">
-         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-         <div className="max-w-7xl mx-auto relative z-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-2xl">
-               <h2 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4">Premium Wholesale<br/><span className="text-primary">Snacks & Chocolates.</span></h2>
-               <p className="text-gray-400 text-sm md:text-base font-medium mb-8">Direct trade, 24h delivery, and the best prices on top brands. Stock your shelves today.</p>
-               <div className="flex justify-center md:justify-start gap-4">
-                  <button className="bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-xl text-sm font-bold uppercase tracking-widest transition-colors shadow-lg shadow-primary/30">Shop Now</button>
-                  <a href="https://wa.me/+971553924347" className="md:hidden flex items-center justify-center bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl text-sm font-bold transition-colors">Contact</a>
-               </div>
-            </div>
-            <div className="hidden md:block relative w-64 h-64">
-               {/* Decorative Element */}
-               <div className="absolute inset-0 bg-primary rounded-full blur-[80px] opacity-20"></div>
-            </div>
-         </div>
-      </section>
-
-      {/* Categories Bar */}
-      <section className="border-b border-gray-200 bg-white sticky top-[73px] z-40 shadow-sm">
+      {/* Circular Category Slider - Iconic Chocolayt Feature */}
+      <section className="py-8 border-b border-gray-50 overflow-hidden">
          <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="flex overflow-x-auto py-4 gap-2 scrollbar-hide">
-               {categories.map((cat, i) => (
-                 <button key={i} className={`whitespace-nowrap px-5 py-2 rounded-full border text-sm font-semibold transition-all ${i === 0 ? 'bg-foreground text-white border-foreground' : 'bg-white text-secondary-text border-gray-200 hover:border-primary hover:text-primary shadow-sm hover:shadow-md'}`}>
-                   {cat.name}
-                 </button>
+            <div className="flex overflow-x-auto py-2 gap-6 md:gap-10 scrollbar-hide">
+               <Link href="/" className="flex flex-col items-center gap-3 shrink-0 group">
+                  <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center text-3xl transition-all shadow-sm ${!selectedCategoryHandle ? 'bg-primary border-4 border-yellow-200 scale-110 shadow-lg shadow-yellow-200' : 'bg-gray-100 group-hover:bg-gray-200'}`}>
+                     📦
+                  </div>
+                  <span className={`text-xs font-black uppercase tracking-widest ${!selectedCategoryHandle ? 'text-black' : 'text-gray-500 group-hover:text-black'}`}>All</span>
+               </Link>
+               {product_categories.map((cat: any) => (
+                 <Link key={cat.id} href={`/?category=${cat.handle}`} className="flex flex-col items-center gap-3 shrink-0 group">
+                    <div className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center text-3xl transition-all shadow-sm ${selectedCategoryHandle === cat.handle ? 'bg-primary border-4 border-yellow-200 scale-110 shadow-lg shadow-yellow-200' : 'bg-gray-100 group-hover:bg-gray-200'}`}>
+                       {categoryIconMap[cat.handle] || "🛍️"}
+                    </div>
+                    <span className={`text-xs font-black uppercase tracking-widest ${selectedCategoryHandle === cat.handle ? 'text-black' : 'text-gray-500 group-hover:text-black'}`}>{cat.name}</span>
+                 </Link>
                ))}
             </div>
          </div>
       </section>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 bg-background">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-12 space-y-20">
         
-        {/* Products Grid */}
-        <section className="mb-20">
-           <div className="flex justify-between items-center mb-8">
-              <h3 className="text-2xl font-black tracking-tight text-foreground">Featured Products</h3>
-              <Link href="/products" className="text-primary text-sm font-bold hover:underline">View All →</Link>
+        {/* Products Grid - Redesigned Card Style */}
+        <section>
+           <div className="mb-10 text-center md:text-left">
+              <h3 className="text-3xl font-black text-black uppercase tracking-tighter">
+                {selectedCategoryHandle 
+                  ? product_categories.find((c: any) => c.handle === selectedCategoryHandle)?.name 
+                  : "Top Wholesale Picks"}
+              </h3>
            </div>
 
-           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-             {products?.map((product: any) => (
-               <div key={product.id} className="group bg-card-bg rounded-2xl border border-gray-200 overflow-hidden hover:border-primary hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col">
-                 <Link href={`/products/${product.handle}`} className="aspect-square relative bg-white p-4 overflow-hidden">
+           <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+             {products?.length > 0 ? products.map((product: any) => (
+               <div key={product.id} className="group bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-yellow-100 transition-all duration-300 flex flex-col h-full overflow-hidden">
+                 
+                 {/* Title Top - Chocolayt Style */}
+                 <div className="p-5 pb-0">
+                    <h4 className="text-[13px] font-black text-gray-800 leading-tight line-clamp-2 h-8 group-hover:text-primary transition-colors uppercase">{product.title}</h4>
+                 </div>
+
+                 <Link href={`/products/${product.handle}`} className="flex-1 relative aspect-square flex items-center justify-center p-8">
                     <Image 
                       src={product.thumbnail || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"} 
                       alt={product.title}
                       fill
-                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                      className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                      unoptimized
                     />
                  </Link>
                  
-                 <div className="p-4 flex-1 flex flex-col justify-between border-t border-gray-50 bg-gray-50/50">
-                    <Link href={`/products/${product.handle}`}>
-                       <span className="text-[10px] font-bold text-secondary-text uppercase tracking-wider mb-1 block">
-                          {product.title.split(' ')[0]}
-                       </span>
-                       <h4 className="text-sm font-bold text-foreground leading-snug mb-3 line-clamp-2 hover:text-primary transition-colors">{product.title}</h4>
-                    </Link>
-                    <div className="flex items-center justify-between mt-auto">
-                       <span className="text-lg font-black text-foreground">
-                        {(() => {
-                          const aedPrice = product.variants?.[0]?.prices?.find((p: any) => p.currency_code === "aed");
-                          return aedPrice 
-                            ? `AED ${(aedPrice.amount / 100).toLocaleString()}` 
-                            : "Out of Stock";
-                        })()}
+                 <div className="p-5 pt-0 space-y-4">
+                    <div className="flex items-center justify-between">
+                       <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">Price </span>
+                       <span className="text-lg font-black text-black">
+                         {(() => {
+                           const aedPrice = product.variants?.[0]?.prices?.find((p: any) => p.currency_code === "aed");
+                           return aedPrice 
+                             ? `AED ${(aedPrice.amount / 100).toLocaleString()}` 
+                             : "N/A";
+                         })()}
                        </span>
                     </div>
+                    
                     {product.variants?.[0]?.id && (
-                      <div className="mt-4">
+                      <div className="group-hover:scale-[1.02] transition-transform">
                          <AddToCart variantId={product.variants[0].id} variant="choco" />
                       </div>
                     )}
                  </div>
                </div>
-             ))}
+             )) : (
+               <div className="col-span-full py-20 text-center">
+                 <p className="text-gray-500 font-medium">No results found for this category.</p>
+               </div>
+             )}
            </div>
         </section>
 
+        {/* Promo Banner */}
+        <section className="relative rounded-[3rem] bg-[#FFFBEB] border-2 border-primary/20 p-10 md:p-20 overflow-hidden flex flex-col md:flex-row items-center gap-10">
+           <div className="flex-1 space-y-6">
+              <span className="bg-primary text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-[0.2em]">Bulk Buy Hero</span>
+              <h3 className="text-4xl md:text-5xl font-black text-black leading-tight">Fill your shelves <br/> with <span className="underline decoration-primary decoration-8 underline-offset-4 text-gradient">Happiness.</span></h3>
+              <p className="text-gray-600 font-bold max-w-md">Our weekly restock is here. Get early access to premium fresh produce and trending snacks.</p>
+              <button className="bg-black text-white px-10 py-5 rounded-2xl text-base font-black transition-all hover:bg-gray-800 shadow-xl shadow-black/10">Browse Full Catalog</button>
+           </div>
+           <div className="hidden md:flex w-64 h-64 bg-primary/20 rounded-full items-center justify-center animate-bounce">
+              <span className="text-8xl">🛍️</span>
+           </div>
+        </section>
       </main>
 
       <Footer />
