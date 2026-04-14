@@ -9,13 +9,13 @@ export default function Header() {
   const itemCount = cart?.items?.reduce((acc: number, item: any) => acc + item.quantity, 0) || 0
 
   return (
-    <div className="w-full">
+    <div className="w-full sticky top-0 z-50 bg-white">
       {/* Announcement Bar */}
       <div className="bg-primary text-foreground py-2 text-center text-[11px] font-black uppercase tracking-widest shadow-sm">
          🚀 Free Delivery on Bulk Orders & Wholesale Prices Available!
       </div>
       
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
+      <header className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center gap-4">
           <Link href="/" className="flex items-center gap-2 group shrink-0">
             <h1 className="text-2xl md:text-3xl font-black text-foreground tracking-tighter">
