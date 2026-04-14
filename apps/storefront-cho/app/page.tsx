@@ -65,12 +65,18 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
         
         {/* Products Grid - Redesigned Card Style */}
         <section>
-           <div className="mb-10 text-center md:text-left">
-              <h3 className="text-3xl font-black text-black uppercase tracking-tighter">
-                {selectedCategoryHandle 
-                  ? product_categories.find((c: any) => c.handle === selectedCategoryHandle)?.name 
-                  : "Top Wholesale Picks"}
-              </h3>
+           <div className="mb-10 flex flex-col md:flex-row justify-between items-center md:items-end gap-6">
+              <div className="text-center md:text-left">
+                 <h3 className="text-3xl font-black text-black uppercase tracking-tighter">
+                   {selectedCategoryHandle 
+                     ? product_categories.find((c: any) => c.handle === selectedCategoryHandle)?.name 
+                     : "Top Wholesale Picks"}
+                 </h3>
+                 <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mt-2">Curated for your store</p>
+              </div>
+              <Link href="/products" className="group flex items-center gap-2 text-[11px] font-black uppercase tracking-widest border-b-2 border-primary pb-1 hover:text-primary transition-colors">
+                 View all products <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
            </div>
 
            <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
