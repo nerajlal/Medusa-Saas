@@ -38,9 +38,47 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
   return (
     <div className="min-h-screen bg-white">
       <Header />
+      
+      {/* Simple Premium Hero */}
+      <section className="bg-white py-12 md:py-24 border-b border-gray-50">
+         <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-12">
+            <div className="flex-1 space-y-8 text-center md:text-left">
+               <div className="inline-flex items-center gap-2 bg-yellow-50 text-primary px-4 py-2 rounded-full border border-yellow-100 animate-pulse">
+                  <span className="w-2 h-2 bg-primary rounded-full"></span>
+                  <span className="text-[10px] font-black uppercase tracking-widest">Now Delivering Nationwide</span>
+               </div>
+               <h2 className="text-5xl md:text-7xl font-black text-black leading-[0.9] tracking-tighter uppercase italic">
+                  Premium <br/> 
+                  Wholesale <br/>
+                  <span className="text-primary not-italic">Treats.</span>
+               </h2>
+               <p className="text-gray-500 font-bold max-w-md mx-auto md:mx-0 text-sm md:text-base leading-relaxed">
+                  The UAE's trusted partner for high-quality snacks, chocolates, and fresh produce. Curated for your retail happiness.
+               </p>
+               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                  <Link href="/products" className="bg-black text-white px-10 py-5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all hover:bg-gray-800 shadow-xl shadow-black/10">
+                     Shop Catalog
+                  </Link>
+                  <a href="#categories" className="bg-white text-black border-2 border-gray-100 px-10 py-5 rounded-2xl text-xs font-black uppercase tracking-widest transition-all hover:border-primary">
+                     Browse Categories
+                  </a>
+               </div>
+            </div>
+            <div className="hidden lg:flex flex-1 justify-end">
+               <div className="relative w-80 h-80 bg-primary/10 rounded-full flex items-center justify-center">
+                  <div className="absolute inset-0 border-4 border-dashed border-primary/20 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                  <span className="text-[140px] drop-shadow-2xl">🍫</span>
+                  <div className="absolute -top-4 -right-4 bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 rotate-12">
+                     <span className="text-4xl text-primary font-black">100%</span>
+                     <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Freshness<br/>Guaranteed</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
 
       {/* Circular Category Slider - Iconic Chocolayt Feature */}
-      <section className="py-8 border-b border-gray-50 overflow-hidden">
+      <section id="categories" className="py-8 border-b border-gray-50 overflow-hidden">
          <div className="max-w-7xl mx-auto px-4 md:px-6">
             <div className="flex overflow-x-auto py-2 gap-6 md:gap-10 scrollbar-hide">
                <Link href="/" className="flex flex-col items-center gap-3 shrink-0 group">
