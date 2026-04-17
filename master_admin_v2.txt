@@ -1,0 +1,10 @@
+
+> master-admin@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.5:3000
+✓ Ready in 1446ms
+
+ GET / 200 in 1079ms (next.js: 472ms, application-code: 607ms)

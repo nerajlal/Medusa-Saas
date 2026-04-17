@@ -155,9 +155,10 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
                        </div>
                        <Link href={`/products/${product.handle}`} className="relative aspect-square mb-3 block overflow-hidden rounded-xl bg-gray-50 border border-gray-100/50">
                          <Image 
-                           src={product.thumbnail || ""} 
+                           src={product.thumbnail || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"} 
                            alt={product.title || "Product Image"}
                            fill
+                           unoptimized
                            className="object-contain p-6 group-hover:scale-110 transition-transform duration-700"
                          />
                        </Link>
