@@ -128,7 +128,8 @@ export default function Home() {
                 <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                   tenant.theme === "A" ? "bg-green-100 text-green-700" :
                   tenant.theme === "B" ? "bg-purple-100 text-purple-700" :
-                  "bg-orange-100 text-orange-700"
+                  tenant.theme === "C" ? "bg-orange-100 text-orange-700" :
+                  "bg-emerald-100 text-emerald-700"
                 }`}>
                   Theme {tenant.theme}
                 </span>
@@ -212,6 +213,7 @@ export default function Home() {
                     <option value="A">Plan A (Minimal)</option>
                     <option value="B">Plan B (Premium)</option>
                     <option value="C">Plan C (High Conv)</option>
+                    <option value="E">Plan E (Marketplace)</option>
                   </select>
                 </div>
                 <div>
