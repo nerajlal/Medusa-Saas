@@ -3,11 +3,11 @@ import Image from "next/image"
 import Link from "next/link"
 import AddToCart from "@/app/components/AddToCart"
 import Header from "@/app/components/Header"
-import Footer from "@/app/components/Footer"
+import { ChevronRight } from "lucide-react"
 
 export const metadata = {
-  title: "All Products | Chocolayt Wholesale",
-  description: "Browse our full catalog of premium wholesale chocolates, snacks, and more.",
+  title: "All Products | Raley's Market",
+  description: "Browse our full catalog of fresh produce, dairy, bakery, and more.",
 }
 
 export default async function ProductsPage(props: { searchParams: Promise<{ category?: string }> }) {
@@ -16,7 +16,6 @@ export default async function ProductsPage(props: { searchParams: Promise<{ cate
 
   const { product_categories } = await fetchProductCategories()
   
-  // Filter products by category if one is selected
   const productParams: Record<string, string | number> = { limit: 100 }
   if (selectedCategoryHandle) {
     const selectedCat = product_categories.find((c: any) => c.handle === selectedCategoryHandle)
@@ -27,117 +26,104 @@ export default async function ProductsPage(props: { searchParams: Promise<{ cate
   
   const products = await fetchProducts(productParams)
 
-  // Map emojis to categories for the circular nav
-  const categoryIconMap: Record<string, string> = {
-    "fresh-produce": "🍎",
-    "pantry": "🍞",
-    "chocolates": "🍫",
-    "jellies": "🍮",
-    "candies": "🍬",
-    "marshmallow": "🍥",
-    "wafers-cake": "🍰",
-    "biscuits": "🍪",
-    "bubble-gum": "🎈"
-  };
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background flex flex-col font-sans">
       <Header />
 
-      {/* Circular Category Slider - Sticky context removed for Products Page */}
-      <section className="py-8 border-b border-gray-100 bg-white">
-         <div className="max-w-7xl mx-auto px-4 md:px-6">
-            <div className="flex overflow-x-auto py-2 gap-6 md:gap-10 scrollbar-hide">
-               <Link href="/products" className="flex flex-col items-center gap-2 shrink-0 group focus:outline-none">
-                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-2xl transition-all shadow-sm ${!selectedCategoryHandle ? 'bg-primary border-4 border-yellow-200 scale-110 shadow-lg shadow-yellow-200' : 'bg-gray-50 group-hover:bg-gray-100'}`}>
-                     📦
-                  </div>
-                  <span className={`text-[10px] font-black uppercase tracking-widest ${!selectedCategoryHandle ? 'text-black' : 'text-gray-400 group-hover:text-black'}`}>All</span>
-               </Link>
-               {product_categories.map((cat: any) => (
-                 <Link key={cat.id} href={`/products?category=${cat.handle}`} className="flex flex-col items-center gap-2 shrink-0 group focus:outline-none">
-                    <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-2xl transition-all shadow-sm ${selectedCategoryHandle === cat.handle ? 'bg-primary border-4 border-yellow-200 scale-110 shadow-lg shadow-yellow-200' : 'bg-gray-50 group-hover:bg-gray-100'}`}>
-                       {categoryIconMap[cat.handle] || "🛍️"}
-                    </div>
-                    <span className={`text-[10px] font-black uppercase tracking-widest ${selectedCategoryHandle === cat.handle ? 'text-black' : 'text-gray-400 group-hover:text-black'}`}>{cat.name}</span>
-                 </Link>
-               ))}
-            </div>
-         </div>
-      </section>
+      <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 flex-1 w-full">
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-2 text-xs font-bold text-gray-400 mb-8 w-full">
+           <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+           <ChevronRight className="w-3 h-3" />
+           <span className="text-foreground">
+             {selectedCategoryHandle ? product_categories.find((c: any) => c.handle === selectedCategoryHandle)?.name : "All Groceries"}
+           </span>
+        </nav>
 
-      <main className="max-w-7xl mx-auto px-4 md:px-6 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 mb-12">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 mb-10">
           <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-black uppercase italic">
+            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-foreground">
               {selectedCategoryHandle 
                 ? product_categories.find((c: any) => c.handle === selectedCategoryHandle)?.name 
-                : "Full Collection"}
+                : "Shop All Groceries"}
             </h1>
-            <p className="text-gray-400 text-xs font-black uppercase tracking-[0.3em] mt-2">
-              Showing {products.length} wholesale ready item{products.length !== 1 ? "s" : ""}
+            <p className="text-gray-500 font-medium text-sm mt-2">
+              Viewing {products.length} item{products.length !== 1 ? "s" : ""}
             </p>
           </div>
         </div>
 
         {products.length === 0 ? (
-          <div className="text-center py-40 bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200">
-            <div className="text-6xl mb-6 opacity-30">📦</div>
-            <h2 className="text-xl font-black uppercase text-gray-400">Inventory Sync in Progress</h2>
-            <p className="text-gray-400 mt-2 font-medium">This category is currently being restocked. Check back in a few hours!</p>
+          <div className="text-center py-32 bg-gray-50 rounded-[2rem] border border-gray-100">
+            <div className="text-6xl mb-6 opacity-40">🛒</div>
+            <h2 className="text-xl font-black text-foreground">No Items Found</h2>
+            <p className="text-gray-500 mt-2 font-medium">We couldn't find any groceries in this department.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
-            {products.map((product: any) => (
-              <div
-                key={product.id}
-                className="group bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-yellow-100/50 transition-all duration-300 flex flex-col h-full overflow-hidden"
-              >
-                {/* Title Top - Chocolayt Pattern */}
-                <div className="p-5 pb-0">
-                  <h4 className="text-[13px] font-black text-gray-800 leading-tight line-clamp-2 h-8 group-hover:text-primary transition-colors uppercase">
-                    {product.title}
-                  </h4>
-                </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
+            {products.map((product: any) => {
+              const amount = product.variants?.[0]?.prices?.[0]?.amount || 0;
+              const priceStr = (amount / 100).toFixed(2);
+              const [dollars, cents] = priceStr.split(".");
 
-                <Link href={`/products/${product.handle}`} className="flex-1 relative aspect-square flex items-center justify-center p-8">
-                  <Image
-                    src={product.thumbnail || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"}
-                    alt={product.title || "Product Image"}
-                    fill
-                    unoptimized
-                    className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
-                  />
-                </Link>
-
-                <div className="p-5 pt-0 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">Price </span>
-                    <span className="text-lg font-black text-black">
-                      {(() => {
-                        const aedPrice = product.variants?.[0]?.prices?.find(
-                          (p: any) => p.currency_code === "aed"
-                        )
-                        return aedPrice
-                          ? `AED ${(aedPrice.amount / 100).toLocaleString()}`
-                          : "–"
-                      })()}
-                    </span>
+              return (
+                <div
+                  key={product.id}
+                  className="group flex flex-col relative bg-white rounded-2xl p-2 hover:instacart-shadow border border-transparent transition-all duration-300"
+                >
+                  <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
+                     {product.variants?.[0]?.id && (
+                        <AddToCart variantId={product.variants[0].id} variant="market" />
+                     )}
                   </div>
+                  
+                  <Link href={`/products/${product.handle}`} className="relative aspect-square mb-4 block overflow-hidden rounded-xl bg-gray-50 border border-gray-100/50">
+                    <Image
+                      src={product.thumbnail || "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000"}
+                      alt={product.title || "Product Image"}
+                      fill
+                      unoptimized
+                      className="object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </Link>
 
-                  {product.variants?.[0]?.id && (
-                    <div className="group-hover:scale-[1.02] transition-transform">
-                      <AddToCart variantId={product.variants[0].id} variant="choco" />
-                    </div>
-                  )}
+                  <div className="flex flex-col flex-1 px-2">
+                     <div className="mb-1 flex items-start text-foreground">
+                        <span className="text-lg font-black">₹{dollars}</span>
+                        <span className="text-[10px] font-bold leading-[1.8]">{cents}</span>
+                     </div>
+                     <h4 className="text-[13px] font-bold text-gray-800 leading-tight mb-1 line-clamp-2 h-8 group-hover:text-primary transition-colors">
+                       {product.title}
+                     </h4>
+                     <p className="text-[11px] text-gray-400 font-bold mb-3 uppercase tracking-tighter">1 each</p>
+                     
+                     <div className="mt-auto flex items-center gap-1.5 text-[10px] font-extrabold text-primary pt-3 border-t border-gray-50">
+                       <div className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center text-[10px]">✓</div>
+                       In Stock
+                     </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </main>
 
-      <Footer />
+      <footer className="bg-sidebar border-t border-border-light py-12 px-8 mt-auto w-full">
+         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex items-center gap-2 grayscale opacity-40">
+              <div className="w-8 h-8 bg-foreground rounded-lg" />
+              <span className="text-xl font-black italic">Raley's</span>
+            </div>
+            <span className="text-xs font-bold text-gray-400">© 2026 Raley's Marketplace. All rights reserved.</span>
+            <div className="flex gap-8 text-[11px] font-black uppercase tracking-widest text-gray-500">
+               <a href="#" className="hover:text-primary transition-colors">Privacy</a>
+               <a href="#" className="hover:text-primary transition-colors">Terms</a>
+               <a href="#" className="hover:text-primary transition-colors">Help</a>
+            </div>
+         </div>
+      </footer>
     </div>
   )
 }
+

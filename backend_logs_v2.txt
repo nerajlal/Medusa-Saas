@@ -1,0 +1,251 @@
+npm warn config ignoring workspace config at D:\wamp2025\www\Medusa SAAS\apps\backend/.npmrc
+
+> backend@0.0.1 dev
+> medusa develop
+
+[32minfo[39m:    [Watcher] Using standard dev server (restart on file change)
+[32minfo[39m:    [Watcher] Watching filesystem to reload dev server on file change
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 15791ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[DEBUG] Tenant Middleware hit for GET /
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:42:21.267Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"127.0.0.1:9000","connection":"keep-alive","sec-ch-ua-platform":"\"Windows\"","user-agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36","sec-ch-ua":"\"Google Chrome\";v=\"147\", \"Not.A/Brand\";v=\"8\", \"Chromium\";v=\"147\"","sec-ch-ua-mobile":"?0","accept":"*/*","origin":"http://localhost:3000","sec-fetch-site":"cross-site","sec-fetch-mode":"cors","sec-fetch-dest":"empty","referer":"http://localhost:3000/","accept-encoding":"gzip, deflate, br, zstd","accept-language":"en-GB,en-US;q=0.9,en;q=0.8","if-none-match":"W/\"8c6-62//Lj9GmAqdIV1c/2/eHBIqTRs\""}
+[TENANT] No tenant identified for request to /
+[32mhttp[39m:    GET /admin/tenants ← http://localhost:3000/ (304) - 33.053 ms
+[DEBUG] Tenant Middleware hit for GET /
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:42:48.275Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","user-agent":"curl/8.18.0","accept":"*/*","x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9"}
+[TENANT] Request for / identified as tenant: raleys-market
+[Store Products] Error: SELECT 
+          pv.id, pv.title, pv.product_id, pv.inventory_quantity,
+          pp.amount, pp.currency_code
+         FROM product_variant pv
+         LEFT JOIN price_set_money_amount psma ON psma.id IS NOT NULL
+         LEFT JOIN money_amount pp ON pp.id IS NOT NULL
+         WHERE pv.product_id IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+           AND pv.deleted_at IS NULL - relation "price_set_money_amount" does not exist
+[32mhttp[39m:    GET /store/products ← - (500) - 53.564 ms
+[DEBUG] Tenant Middleware hit for GET /
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:43:01.859Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","user-agent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115","host":"localhost:9000","connection":"Keep-Alive"}
+[TENANT] Request for / identified as tenant: raleys-market
+[Store Products] Error: SELECT 
+          pv.id, pv.title, pv.product_id, pv.inventory_quantity,
+          pp.amount, pp.currency_code
+         FROM product_variant pv
+         LEFT JOIN price_set_money_amount psma ON psma.id IS NOT NULL
+         LEFT JOIN money_amount pp ON pp.id IS NOT NULL
+         WHERE pv.product_id IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+           AND pv.deleted_at IS NULL - relation "price_set_money_amount" does not exist
+[32mhttp[39m:    GET /store/products ← - (500) - 23.215 ms
+[DEBUG] Tenant Middleware hit for GET /
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:43:07.789Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","user-agent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115","host":"localhost:9000","connection":"Keep-Alive"}
+[TENANT] Request for / identified as tenant: raleys-market
+[Store Products] Error: SELECT 
+          pv.id, pv.title, pv.product_id, pv.inventory_quantity,
+          pp.amount, pp.currency_code
+         FROM product_variant pv
+         LEFT JOIN price_set_money_amount psma ON psma.id IS NOT NULL
+         LEFT JOIN money_amount pp ON pp.id IS NOT NULL
+         WHERE pv.product_id IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+           AND pv.deleted_at IS NULL - relation "price_set_money_amount" does not exist
+[32mhttp[39m:    GET /store/products ← - (500) - 21.390 ms
+[32minfo[39m:    [Watcher] created src\scripts\check-price-tables.ts created: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 616.20ms
+[32minfo[39m:    [Watcher] modified src\scripts\check-price-tables.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 338.37ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 9585ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[32minfo[39m:    [Watcher] modified src\api\store\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 240.16ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 10245ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[32minfo[39m:    [Watcher] modified src\api\admin\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 260.15ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 7420ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[DEBUG] Tenant Middleware hit for GET /?limit=5
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:45:06.281Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","user-agent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115","host":"localhost:9000","connection":"Keep-Alive"}
+[TENANT] Request for /?limit=5 identified as tenant: raleys-market
+[Store Products] Error: Expected 5 bindings, saw 0
+[32mhttp[39m:    GET /store/products?limit=5 ← - (500) - 56.872 ms
+[32minfo[39m:    [Watcher] modified src\api\store\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 606.06ms
+[32minfo[39m:    [Watcher] modified src\api\admin\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 383.84ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 7210ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[DEBUG] Tenant Middleware hit for GET /?limit=5
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:46:12.656Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","user-agent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115","host":"localhost:9000","connection":"Keep-Alive"}
+[TENANT] Request for /?limit=5 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=5 ← - (200) - 91.920 ms
+[DEBUG] Tenant Middleware hit for GET /?limit=5
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:47:32.160Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","user-agent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115","host":"localhost:9000","connection":"Keep-Alive"}
+[TENANT] Request for /?limit=5 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=5 ← - (200) - 44.247 ms
+[32minfo[39m:    [Watcher] created src\scripts\check-category-tables.ts created: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 315.68ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 5896ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[32minfo[39m:    [Watcher] modified src\api\store\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 265.19ms
+[32minfo[39m:    [Watcher] modified src\api\store\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 215.30ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 5257ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[DEBUG] Tenant Middleware hit for GET /?limit=5
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:48:59.301Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","user-agent":"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.8115","host":"localhost:9000","connection":"Keep-Alive"}
+[TENANT] Request for /?limit=5 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=5 ← - (200) - 80.828 ms
+[32minfo[39m:    [Watcher] created test-fetch.ts created: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 211.22ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 6452ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[DEBUG] Tenant Middleware hit for GET /?limit=5
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:51:56.075Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=5 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=5 ← - (200) - 94.408 ms
+[32minfo[39m:    [Watcher] created src\scripts\list-categories.ts created: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 226.87ms
+[32minfo[39m:    [Watcher] modified src\scripts\list-categories.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 248.74ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 6557ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[32minfo[39m:    [Watcher] created src\scripts\link-categories.ts created: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 211.43ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+√ Server is ready on port: 9000 – 6020ms
+[32minfo[39m:    Admin URL → http://localhost:9000/app
+[DEBUG] Tenant Middleware hit for GET /?limit=5
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-17T23:53:07.979Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-tenant-id":"raleys-market","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=5 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=5 ← - (200) - 128.142 ms
+[32minfo[39m:    [Watcher] modified src\api\admin\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 291.40ms
+[32minfo[39m:    [Watcher] modified src\api\admin\products\route.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 790.05ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.

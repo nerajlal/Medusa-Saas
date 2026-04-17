@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Choco Bliss | Premium Wholesale Snacks & Chocolates",
-  description: "Direct trade, 24h delivery, and the best prices on top brands. Stock your shelves today.",
+  title: "Raley's Market | Fresh Groceries & Same-day Delivery",
+  description: "Shop for fresh produce, dairy, bakery and more from Raley's Market. Same-day delivery right to your door.",
 };
 
 const geistSans = Geist({
@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground font-sans selection:bg-primary/10">
+      <body className="min-h-full bg-background text-foreground font-sans selection:bg-primary/10 overflow-x-hidden">
         <CartProvider>
           <main className="flex-1">{children}</main>
         </CartProvider>

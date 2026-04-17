@@ -7,19 +7,24 @@ const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
 export async function fetchProducts(params: Record<string, string> = {}) {
   try {
     const query = new URLSearchParams({
-      fields: "id,title,handle,thumbnail,categories.id,categories.handle,*variants.prices",
+      limit: "100",
       ...params,
     }).toString()
 
+    // Use our custom tenant-filtered endpoint
     const res = await fetch(`${BACKEND_URL}/store/products?${query}`, {
       headers: {
         "x-publishable-api-key": PUBLISHABLE_KEY,
         "x-tenant-id": TENANT_ID,
       },
-      next: { revalidate: 60 },
+      cache: "no-store",
     })
 
-    if (!res.ok) throw new Error("Failed to fetch products")
+    if (!res.ok) {
+      const err = await res.text()
+      console.error("Fetch products failed:", err)
+      return []
+    }
     const data = await res.json()
     return data.products || []
   } catch (e) {
@@ -30,12 +35,12 @@ export async function fetchProducts(params: Record<string, string> = {}) {
 
 export async function fetchProduct(handle: string) {
   try {
-    const res = await fetch(`${BACKEND_URL}/store/products?handle=${handle}&fields=id,title,handle,thumbnail,categories.id,categories.handle,*variants.prices`, {
+    const res = await fetch(`${BACKEND_URL}/store/products?handle=${handle}`, {
       headers: {
         "x-publishable-api-key": PUBLISHABLE_KEY,
         "x-tenant-id": TENANT_ID,
       },
-      next: { revalidate: 60 },
+      cache: "no-store",
     })
     if (!res.ok) throw new Error("Failed to fetch product")
     const data = await res.json()

@@ -1,0 +1,27 @@
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:8004
+- Network:       http://192.168.1.5:8004
+- Environments: .env.local
+✓ Ready in 832ms
+
+ GET / 200 in 2.1s (next.js: 620ms, application-code: 1448ms)
+ GET / 200 in 389ms (next.js: 7ms, application-code: 382ms)
+ GET / 200 in 283ms (next.js: 7ms, application-code: 277ms)
+ GET / 200 in 19ms (next.js: 6ms, application-code: 13ms)
+ GET / 200 in 45ms (next.js: 4ms, application-code: 41ms)
+ GET / 200 in 13ms (next.js: 5ms, application-code: 8ms)
+ GET / 200 in 51ms (next.js: 4ms, application-code: 47ms)
+ GET / 200 in 275ms (next.js: 6ms, application-code: 269ms)
+ GET / 200 in 308ms (next.js: 14ms, application-code: 293ms)
+ GET /?category=chocolates 200 in 48ms (next.js: 6ms, application-code: 42ms)
+ GET /?category=jellies 200 in 38ms (next.js: 4ms, application-code: 34ms)
+ GET /?category=merch 200 in 39ms (next.js: 4ms, application-code: 35ms)
+ GET /?category=fresh-produce 200 in 47ms (next.js: 4ms, application-code: 43ms)
+ GET /?category=pantry 200 in 43ms (next.js: 5ms, application-code: 38ms)
+ GET / 200 in 14ms (next.js: 4ms, application-code: 10ms)
+ GET / 200 in 49ms (next.js: 3ms, application-code: 46ms)
+⚠ Fast Refresh had to perform a full reload when ./apps/storefront-market/lib/medusa.ts changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+Fetch products failed: {"error":"SELECT \n          pv.id, pv.title, pv.product_id, pv.inventory_quantity,\n          pp.amount, pp.currency_code\n         FROM product_variant pv\n         LEFT JOIN price_set_money_amount psma ON psma.id IS NOT NULL\n         LEFT JOIN money_amount pp ON pp.id IS NOT NULL\n         WHERE pv.product_id IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)\n           AND pv.deleted_at IS NULL - relation \"price_set_money_amount\" does not exist"}
+ GET / 200 in 1224ms (next.js: 420ms, application-code: 805ms)
+Fetch products failed: {"error":"SELECT \n          pv.id, pv.title, pv.product_id, pv.inventory_quantity,\n          pp.amount, pp.currency_code\n         FROM product_variant pv\n         LEFT JOIN price_set_money_amount psma ON psma.id IS NOT NULL\n         LEFT JOIN money_amount pp ON pp.id IS NOT NULL\n         WHERE pv.product_id IN ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)\n           AND pv.deleted_at IS NULL - relation \"price_set_money_amount\" does not exist"}
+ GET / 200 in 1146ms (next.js: 32ms, application-code: 1113ms)
