@@ -3,7 +3,7 @@ import { ShoppingBag, Repeat, List, LayoutGrid, Carrot, Sandwich, Candy } from "
 
 export default function Sidebar({ categories, selectedCategory }: { categories: any[], selectedCategory?: string }) {
   return (
-    <aside className="w-64 flex-shrink-0 hidden lg:block min-h-[calc(100vh-80px)] overflow-y-auto sticky top-20 bg-sidebar border-r border-border-light">
+    <aside className="w-64 flex-shrink-0 hidden lg:block h-[calc(100vh-80px)] overflow-y-auto sticky top-20 bg-sidebar border-r border-border-light">
       <div className="p-4 space-y-1">
         {/* Main Nav */}
         <Link 

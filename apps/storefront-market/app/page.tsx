@@ -37,7 +37,7 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
       <div className="flex-1 flex w-full">
         <Sidebar categories={product_categories} selectedCategory={selectedCategoryHandle} />
         
-        <main className="flex-1 p-4 md:p-8 space-y-12 overflow-y-auto">
+        <main className="flex-1 p-4 md:p-8 space-y-12">
           {/* Hero Banner - Instacart Style */}
           {!selectedCategoryHandle && (
             <div className="bg-[#EBF7F2] rounded-2xl p-8 md:p-12 relative overflow-hidden flex items-center border border-primary/10">
