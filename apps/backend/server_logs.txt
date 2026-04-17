@@ -1,0 +1,79 @@
+npm warn config ignoring workspace config at D:\wamp2025\www\Medusa SAAS\apps\backend/.npmrc
+
+> backend@0.0.1 dev
+> medusa develop
+
+[32minfo[39m:    [Watcher] Using standard dev server (restart on file change)
+[32minfo[39m:    [Watcher] Watching filesystem to reload dev server on file change
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 1067.16ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 725.04ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+[32minfo[39m:    [Watcher] modified src\api\middlewares.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 1307.33ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 776.26ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 470.89ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 463.52ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 482.78ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 447.40ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 380.19ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 301.22ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 318.09ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 413.89ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 464.13ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 374.19ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 384.52ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 348.08ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 391.67ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 411.14ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 615.83ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 394.45ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 698.68ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 554.25ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 559.87ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 1008.94ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 986.57ms
+[32minfo[39m:    [Watcher] modified server_logs.txt modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 305.57ms
+npm error Lifecycle script `dev` failed with error:
+npm error code 1
+npm error path D:\wamp2025\www\Medusa SAAS\apps\backend
+npm error workspace backend@0.0.1
+npm error location D:\wamp2025\www\Medusa SAAS\apps\backend
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c medusa develop

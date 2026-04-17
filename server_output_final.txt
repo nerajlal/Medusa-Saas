@@ -1,0 +1,81 @@
+npm warn config ignoring workspace config at D:\wamp2025\www\Medusa SAAS\apps\backend/.npmrc
+
+> backend@0.0.1 dev
+> medusa develop
+
+[32minfo[39m:    [Watcher] Using standard dev server (restart on file change)
+[32minfo[39m:    [Watcher] Watching filesystem to reload dev server on file change
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+Error: listen EADDRINUSE: address already in use :::9000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at internalStart (D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\src\commands\start.ts:320:15)
+    at async start (D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\src\commands\start.ts:419:12) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 9000
+}
+[32minfo[39m:    [Watcher] created src\scripts\urgent-add-products.ts created: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 957.01ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+Error: listen EADDRINUSE: address already in use :::9000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at internalStart (D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\src\commands\start.ts:320:15)
+    at async start (D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\src\commands\start.ts:419:12) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 9000
+}
+[32minfo[39m:    [Watcher] created src\scripts\add-chococake.ts created: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 693.87ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
+[32minfo[39m:    No workflow to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\workflows. skipped.
+[32minfo[39m:    No subscriber to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\subscribers. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\dist\jobs. skipped.
+[32minfo[39m:    No job to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\jobs. skipped.
+Error: listen EADDRINUSE: address already in use :::9000
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at internalStart (D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\src\commands\start.ts:320:15)
+    at async start (D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\medusa\src\commands\start.ts:419:12) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::',
+  port: 9000
+}
+[32minfo[39m:    [Watcher] modified src\api\middlewares.ts modified: restarting dev server
+[32minfo[39m:    [Watcher] Reloaded in 941.12ms
+- Creating server
+[32minfo[39m:    Skipping instrumentation registration. No register function found.
+[32minfo[39m:    No link to load from D:\wamp2025\www\Medusa SAAS\node_modules\@medusajs\draft-order\.medusa\server\src\links. skipped.
+[33mwarn[39m:    Local Event Bus installed. This is not recommended for production.
+[32minfo[39m:    Locking module: Using "in-memory" as default.
