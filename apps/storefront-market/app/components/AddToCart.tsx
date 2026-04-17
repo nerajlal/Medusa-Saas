@@ -1,6 +1,8 @@
 "use client"
-
+import { useState } from "react"
 import { Plus, Check } from "lucide-react"
+import { createCart, addLineItem } from "@/lib/medusa"
+import { useCart } from "./CartProvider"
 
 export default function AddToCart({ 
   variantId, 

@@ -36,7 +36,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ han
                  <Link href={`/products/${product.handle}`} className="aspect-square relative bg-white p-4 overflow-hidden">
                     <Image 
                       src={product.thumbnail || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"} 
-                      alt={product.title}
+                      alt={product.title || "Product Image"}
                       fill
                       className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                     />

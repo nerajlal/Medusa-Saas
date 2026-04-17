@@ -103,7 +103,7 @@ export default async function ProductsPage(props: { searchParams: Promise<{ cate
                 <Link href={`/products/${product.handle}`} className="flex-1 relative aspect-square flex items-center justify-center p-8">
                   <Image
                     src={product.thumbnail || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"}
-                    alt={product.title}
+                    alt={product.title || "Product Image"}
                     fill
                     unoptimized
                     className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"

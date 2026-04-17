@@ -87,7 +87,7 @@ export default function CartPage() {
                {cart.items.map((item: any, i: number) => (
                  <div key={item.id} className={`p-6 md:p-8 flex items-center gap-6 md:gap-8 ${i !== cart.items.length - 1 ? 'border-b border-gray-50' : ''} ${updating === item.id ? 'opacity-50' : ''}`}>
                     <div className="w-20 md:w-32 aspect-square bg-gray-50 rounded-2xl relative flex-shrink-0 overflow-hidden border border-gray-100">
-                       <Image src={item.thumbnail} alt={item.title} fill className="object-contain p-2" />
+                       <Image src={item.thumbnail} alt={item.title || "Cart Item Image"} fill className="object-contain p-2" />
                     </div>
                     
                     <div className="flex-1 min-w-0">

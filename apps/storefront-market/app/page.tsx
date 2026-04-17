@@ -66,54 +66,65 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
           {!selectedCategoryHandle ? (
             <div className="space-y-16">
               {product_categories.map((cat: any) => {
-                const catProducts = allProducts.filter((p: any) => p.categories?.some((c: any) => c.id === cat.id))
+                const catProducts = allProducts.filter((p: any) => {
+                  const pCats = p.categories;
+                  if (Array.isArray(pCats)) {
+                    return pCats.some((c: any) => c.id === cat.id);
+                  }
+                  if (pCats && typeof pCats === 'object') {
+                    return (pCats as any).id === cat.id;
+                  }
+                  return false;
+                })
+                
                 if (catProducts.length === 0) return null
 
                 return (
                   <section key={cat.id} className="relative">
-                    <div className="flex justify-between items-center mb-6">
+                    <div className="flex justify-between items-center mb-6 px-1">
                       <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 bg-sidebar rounded-full flex items-center justify-center text-xl font-bold border border-border-light">
+                         <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center text-2xl font-bold border border-border-light instacart-shadow">
                             {cat.handle === "fresh-produce" ? "🥦" : 
-                             cat.handle === "pantry" ? "🍞" : "📦"}
+                             cat.handle === "pantry" ? "🍞" : 
+                             cat.handle === "chocolates" ? "🍫" : "📦"}
                          </div>
                          <div>
                            <h3 className="text-2xl font-black text-foreground tracking-tight">{cat.name}</h3>
-                           <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest -mt-1">Hand-picked fresh items</p>
+                           <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest -mt-1">Hand-picked items</p>
                          </div>
                       </div>
                       <Link href={`/?category=${cat.handle}`} className="flex items-center gap-1 text-primary font-black text-sm hover:underline">
-                        View All <ChevronRight className="w-4 h-4" />
+                        View All <ChevronRight className="w-4 h-4 ml-1" />
                       </Link>
                     </div>
 
                     <div className="flex overflow-x-auto gap-5 pb-8 pt-2 carousel-hide-scrollbar -mx-4 px-4 snap-x">
                       {catProducts.map((product: any) => (
-                        <div key={product.id} className="group min-w-[200px] max-w-[200px] snap-start flex flex-col relative bg-white">
-                          <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div key={product.id} className="group min-w-[220px] max-w-[220px] snap-start flex flex-col relative bg-white rounded-2xl p-2 hover:instacart-shadow transition-all duration-300">
+                          <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
                              {product.variants?.[0]?.id && (
                                 <AddToCart variantId={product.variants[0].id} variant="market" />
                              )}
                           </div>
 
-                          <Link href={`/products/${product.handle}`} className="relative aspect-square mb-3 block overflow-hidden rounded-xl bg-gray-50 border border-gray-100/50">
+                          <Link href={`/products/${product.handle}`} className="relative aspect-square mb-4 block overflow-hidden rounded-xl bg-gray-50 border border-gray-100/50">
                             <Image 
                               src={product.thumbnail || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"} 
-                              alt={product.title}
+                              alt={product.title || "Product Image"}
                               fill
                               className="object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                             />
                           </Link>
 
-                          <div className="flex flex-col flex-1 px-1">
+                          <div className="flex flex-col flex-1 px-2">
                              <div className="mb-1">
                                 <Price amount={product.variants?.[0]?.prices?.[0]?.amount || 0} />
                              </div>
-                             <h4 className="text-[13px] font-bold text-gray-700 leading-tight mb-1 line-clamp-2 h-8">{product.title}</h4>
-                             <p className="text-[11px] text-gray-400 font-bold mb-3 uppercase">1 each</p>
+                             <h4 className="text-[14px] font-bold text-gray-800 leading-tight mb-1 line-clamp-2 h-9 group-hover:text-primary transition-colors">{product.title}</h4>
+                             <p className="text-[11px] text-gray-400 font-bold mb-3 uppercase tracking-tighter">1 each</p>
                              
-                             <div className="mt-auto flex items-center gap-1.5 text-[10px] font-extrabold text-primary pt-2 border-t border-gray-50">
-                               <div className="w-4 h-4 rounded-full border border-primary flex items-center justify-center text-[8px]">✓</div>
+                             <div className="mt-auto flex items-center gap-1.5 text-[10px] font-extrabold text-primary pt-3 border-t border-gray-50">
+                               <div className="w-4 h-4 rounded-full border-2 border-primary flex items-center justify-center text-[10px]">✓</div>
                                Many in Stock
                              </div>
                           </div>
@@ -125,6 +136,7 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
               })}
             </div>
           ) : (
+
             <div className="space-y-8">
                <div className="flex items-center gap-4 border-b border-border-light pb-6">
                   <Link href="/" className="text-gray-400 hover:text-primary transition-colors"><ChevronRight className="w-6 h-6 rotate-180" /></Link>
@@ -144,7 +156,7 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
                        <Link href={`/products/${product.handle}`} className="relative aspect-square mb-3 block overflow-hidden rounded-xl bg-gray-50 border border-gray-100/50">
                          <Image 
                            src={product.thumbnail || ""} 
-                           alt={product.title}
+                           alt={product.title || "Product Image"}
                            fill
                            className="object-contain p-6 group-hover:scale-110 transition-transform duration-700"
                          />

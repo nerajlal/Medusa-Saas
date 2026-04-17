@@ -1,7 +1,13 @@
+"use client"
+
 import Link from "next/link"
 import { Search, MapPin, ChevronDown, ShoppingCart, Zap } from "lucide-react"
+import { useCart } from "./CartProvider"
 
 export default function Header() {
+  const { cart } = useCart()
+  const itemCount = cart?.items?.reduce((acc: number, item: any) => acc + item.quantity, 0) || 0
+
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border-light h-20 flex items-center px-4 md:px-8">
       {/* Logo */}
@@ -50,13 +56,13 @@ export default function Header() {
       {/* Right Actions */}
       <div className="flex items-center gap-4 ml-6 shrink-0">
         <button className="hidden sm:block text-sm font-black text-foreground hover:text-primary transition-colors px-3">Sign In</button>
-        <button className="bg-primary text-white pl-4 pr-5 h-12 rounded-full text-sm font-black instacart-shadow hover:bg-primary-hover transition-all flex items-center gap-2.5">
+        <Link href="/cart" className="bg-primary text-white pl-4 pr-5 h-12 rounded-full text-sm font-black instacart-shadow hover:bg-primary-hover transition-all flex items-center gap-2.5">
           <div className="bg-white/20 p-1.5 rounded-full">
             <ShoppingCart className="w-5 h-5" />
           </div>
           <span className="hidden md:inline">Cart</span>
-          <span className="bg-white text-primary w-6 h-6 flex items-center justify-center rounded-full text-[12px]">0</span>
-        </button>
+          <span className="bg-white text-primary w-6 h-6 flex items-center justify-center rounded-full text-[12px]">{itemCount}</span>
+        </Link>
       </div>
     </header>
   )

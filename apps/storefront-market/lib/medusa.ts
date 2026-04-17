@@ -7,7 +7,7 @@ const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
 export async function fetchProducts(params: Record<string, string> = {}) {
   try {
     const query = new URLSearchParams({
-      fields: "*variants.prices",
+      fields: "id,title,handle,thumbnail,categories.id,categories.handle,*variants.prices",
       ...params,
     }).toString()
 
@@ -30,7 +30,7 @@ export async function fetchProducts(params: Record<string, string> = {}) {
 
 export async function fetchProduct(handle: string) {
   try {
-    const res = await fetch(`${BACKEND_URL}/store/products?handle=${handle}&fields=*variants.prices`, {
+    const res = await fetch(`${BACKEND_URL}/store/products?handle=${handle}&fields=id,title,handle,thumbnail,categories.id,categories.handle,*variants.prices`, {
       headers: {
         "x-publishable-api-key": PUBLISHABLE_KEY,
         "x-tenant-id": TENANT_ID,
@@ -45,6 +45,7 @@ export async function fetchProduct(handle: string) {
     return null
   }
 }
+
 
 const REGION_ID = process.env.NEXT_PUBLIC_REGION_ID || ""
 

@@ -36,7 +36,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
             <div className="aspect-square bg-white rounded-[3rem] border-2 border-gray-50 overflow-hidden relative shadow-sm">
               <Image 
                 src={product.thumbnail || product.images?.[0]?.url || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"} 
-                alt={product.title}
+                alt={product.title || "Product Image"}
                 fill
                 unoptimized
                 className="object-contain p-8 md:p-20 hover:scale-105 transition-transform duration-700"
@@ -46,7 +46,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
               <div className="grid grid-cols-4 gap-4">
                 {product.images.slice(0, 4).map((img: any, i: number) => (
                   <div key={i} className="aspect-square bg-gray-50 rounded-2xl border border-transparent overflow-hidden relative hover:border-primary transition-all cursor-pointer shadow-sm">
-                    <Image src={img.url} alt={product.title} fill unoptimized className="object-contain p-3" />
+                    <Image src={img.url} alt={product.title || "Product Gallery Image"} fill unoptimized className="object-contain p-3" />
                   </div>
                 ))}
               </div>
@@ -126,7 +126,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
                    <Link href={`/products/${rp.handle}`} className="flex-1 relative aspect-square flex items-center justify-center p-8">
                       <Image 
                         src={rp.thumbnail || "https://images.unsplash.com/photo-1548907040-4baa42d10919?q=80&w=1000"} 
-                        alt={rp.title} 
+                        alt={rp.title || "Related Product Image"} 
                         fill 
                         unoptimized
                         className="object-contain p-4 group-hover:scale-110 transition-transform" 
