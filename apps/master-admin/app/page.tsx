@@ -202,6 +202,15 @@ export default function Home() {
                   onChange={e => setFormData({...formData, store_name: e.target.value})}
                 />
               </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Storefront URL</label>
+                <input 
+                  placeholder="e.g. http://localhost:8001"
+                  className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  value={formData.storefront_url}
+                  onChange={e => setFormData({...formData, storefront_url: e.target.value})}
+                />
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-slate-700 mb-1">Theme</label>
