@@ -1,9 +1,11 @@
 import { fetchCollectionByHandle, fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import Link from "next/link"
 
-export default async function CollectionPage({ params }: { params: { handle: string } }) {
-  const collection = await fetchCollectionByHandle(params.handle)
-  const { products } = await fetchProducts()
+export default async function CollectionPage({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params
+  const collection = await fetchCollectionByHandle(handle)
+  const products = await fetchProducts()
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -24,7 +26,7 @@ export default async function CollectionPage({ params }: { params: { handle: str
 
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
            {products?.map((product: any) => (
-             <a href={`/products/${product.handle || product.id}`} key={product.id} className="bg-white rounded-[2.5rem] p-6 border border-slate-100 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10 transition-all group flex flex-col h-full shadow-lg shadow-slate-200/40">
+             <Link href={`/products/${product.handle || product.id}`} key={product.id} className="bg-white rounded-[2.5rem] p-6 border border-slate-100 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-500/10 transition-all group flex flex-col h-full shadow-lg shadow-slate-200/40">
                 <div className="aspect-square bg-slate-50 relative overflow-hidden mb-8 rounded-[1.5rem] flex items-center justify-center">
                    <Image 
                       src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"} 
@@ -45,12 +47,12 @@ export default async function CollectionPage({ params }: { params: { handle: str
                       ? `₹${(product.variants[0].prices[0].amount / 100).toLocaleString()}` 
                       : "Out of Stock"}
                   </span>
-                  <button className="bg-blue-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-900 transition-colors shadow-lg">
+                  <div className="bg-blue-600 text-white w-10 h-10 rounded-xl flex items-center justify-center hover:bg-slate-900 transition-colors shadow-lg">
                     →
-                  </button>
+                  </div>
                 </div>
-             </a>
-           ))}
+             </Link>
+          ))}
         </section>
 
         <footer className="mt-40 bg-slate-900 rounded-[3rem] p-16 flex flex-col items-center text-center">

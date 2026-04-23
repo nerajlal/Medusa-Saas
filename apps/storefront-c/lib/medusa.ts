@@ -4,19 +4,23 @@ const SALES_CHANNEL_ID = process.env.NEXT_PUBLIC_SALES_CHANNEL_ID || ""
 const TENANT_ID = process.env.NEXT_PUBLIC_TENANT_ID || ""
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
 
+const getHeaders = () => ({
+  "Content-Type": "application/json",
+  "x-publishable-api-key": PUBLISHABLE_KEY,
+  "x-tenant-id": TENANT_ID,
+})
+
 export async function fetchProducts(params: Record<string, string> = {}) {
   try {
-    const query = new URLSearchParams({
+    const queryItems = {
       sales_channel_id: SALES_CHANNEL_ID,
       ...params,
-    }).toString()
+    }
+    const query = new URLSearchParams(queryItems as any).toString()
 
     const res = await fetch(`${BACKEND_URL}/store/products?${query}`, {
-      headers: {
-        "x-publishable-api-key": PUBLISHABLE_KEY,
-        "x-tenant-id": TENANT_ID,
-      },
-      next: { revalidate: 60 },
+      headers: getHeaders(),
+      cache: 'no-store'
     })
 
     if (!res.ok) throw new Error("Failed to fetch products")
@@ -30,12 +34,9 @@ export async function fetchProducts(params: Record<string, string> = {}) {
 
 export async function fetchProduct(handle: string) {
   try {
-    const res = await fetch(`${BACKEND_URL}/store/products?handle=${handle}`, {
-      headers: {
-        "x-publishable-api-key": PUBLISHABLE_KEY,
-        "x-tenant-id": TENANT_ID,
-      },
-      next: { revalidate: 60 },
+    const res = await fetch(`${BACKEND_URL}/store/products?handle=${handle}&fields=*variants.prices`, {
+      headers: getHeaders(),
+      cache: 'no-store'
     })
     if (!res.ok) throw new Error("Failed to fetch product")
     const data = await res.json()
@@ -46,15 +47,24 @@ export async function fetchProduct(handle: string) {
   }
 }
 
+export async function fetchProductCategories() {
+  try {
+    const res = await fetch(`${BACKEND_URL}/store/product-categories`, {
+      headers: getHeaders(),
+      cache: 'no-store'
+    })
+    if (!res.ok) return { product_categories: [] }
+    return res.json()
+  } catch (e) {
+    console.error("Fetch categories failed:", e)
+    return { product_categories: [] }
+  }
+}
 
 export async function createCart() {
   const res = await fetch(`${BACKEND_URL}/store/carts`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": PUBLISHABLE_KEY,
-      "x-tenant-id": TENANT_ID,
-    },
+    headers: getHeaders(),
     body: JSON.stringify({ sales_channel_id: SALES_CHANNEL_ID }),
   })
   if (!res.ok) {
@@ -68,38 +78,50 @@ export async function createCart() {
 export async function addLineItem(cartId: string, variantId: string, quantity: number) {
   const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/line-items`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-publishable-api-key": PUBLISHABLE_KEY,
-      "x-tenant-id": TENANT_ID,
-    },
+    headers: getHeaders(),
     body: JSON.stringify({ variant_id: variantId, quantity }),
   })
   if (!res.ok) {
     const error = await res.json()
     console.error("Add line item failed:", error)
-    throw new Error("Failed to add line item")
+    throw new Error(error.message || "Failed to add line item")
   }
+  return res.json()
+}
+
+export async function updateLineItem(cartId: string, itemId: string, quantity: number) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/line-items/${itemId}`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({ quantity }),
+  })
+  if (!res.ok) throw new Error("Failed to update line item")
+  return res.json()
+}
+
+export async function deleteLineItem(cartId: string, itemId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/line-items/${itemId}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  })
+  if (!res.ok) throw new Error("Failed to delete line item")
   return res.json()
 }
 
 export async function fetchCart(cartId: string) {
   const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}`, {
-    headers: {
-      "x-publishable-api-key": PUBLISHABLE_KEY,
-      "x-tenant-id": TENANT_ID,
-    },
+    headers: getHeaders(),
+    cache: 'no-store'
   })
   if (!res.ok) return null
-  return res.json()
+  const data = await res.json()
+  return data.cart || null
 }
 
 export async function fetchCollections() {
   const res = await fetch(`${BACKEND_URL}/store/collections`, {
-    headers: {
-      "x-publishable-api-key": PUBLISHABLE_KEY,
-      "x-tenant-id": TENANT_ID,
-    },
+    headers: getHeaders(),
+    cache: 'no-store'
   })
   if (!res.ok) return { collections: [] }
   return res.json()
@@ -107,14 +129,10 @@ export async function fetchCollections() {
 
 export async function fetchCollectionByHandle(handle: string) {
   const res = await fetch(`${BACKEND_URL}/store/collections?handle=${handle}`, {
-    headers: {
-      "x-publishable-api-key": PUBLISHABLE_KEY,
-      "x-tenant-id": TENANT_ID,
-    },
+    headers: getHeaders(),
+    cache: 'no-store'
   })
   if (!res.ok) return null
   const data = await res.json()
   return data.collections?.[0] || null
 }
-
-

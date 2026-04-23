@@ -1,19 +1,36 @@
 # Medusa SaaS Local Development Guide
 
-## Running Services
+## 🚀 Quick Start Sequence
 
-1. **Frontend Superadmin**
-   - URL: `http://localhost:3000`
-   - Purpose: Master management console to view and create tenants/stores.
+To avoid "Failed to fetch" errors, services should be started in this order:
 
-2. **Choco Bliss Storefront (Theme D)**
-   - URL: `http://localhost:8003`
-   - Purpose: The customer-facing frontend for the Choco Bliss tenant.
+1. **Start the Backend** (Foundational API)
+2. **Start the Superadmin** (Management Console)
+3. **Start Storefronts** (Customer View)
 
-3. **Medusa Admin Backend**
-   - URL: `http://localhost:9000/app`
-   - API: `http://localhost:9000`
-   - Purpose: Unified backend and admin dashboard for all store owners.
+---
+
+## 🛠 Running Services
+
+### 1. Medusa Backend (CRITICAL)
+The core API that powers everything. **Must be running** for the Superadmin and Storefronts to work.
+- **Path:** `apps/backend`
+- **Command:** `npm run dev`
+- **URL:** `http://localhost:9000/app` (Admin Dashboard)
+- **API:** `http://localhost:9000`
+
+### 2. Frontend Superadmin
+The master console to manage tenants/stores.
+- **Path:** `apps/master-admin`
+- **Command:** `npm run dev`
+- **URL:** `http://localhost:3000`
+- **Note:** Depends on Backend (Port 9000).
+
+### 3. Storefronts (Multi-Tenant)
+Example for Choco Bliss (Theme D):
+- **Path:** `apps/storefront-cho`
+- **Command:** `npm run dev`
+- **URL:** `http://localhost:8003`
 
 ## Store Owner Credentials
 

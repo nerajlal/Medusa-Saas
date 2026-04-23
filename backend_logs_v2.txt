@@ -539,3 +539,66 @@ npm warn config ignoring workspace config at D:\wamp2025\www\Medusa SAAS\apps\ba
 [DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
 [TENANT] Request for /?limit=5 identified as tenant: raleys-market
 [32mhttp[39m:    GET /store/products?limit=5 ← - (200) - 23.584 ms
+[DEBUG] Tenant Middleware hit for GET /
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:23:28.884Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","accept-encoding":"gzip, deflate"}
+[TENANT] Request for / identified as tenant: raleys-market
+[DEBUG] Tenant Middleware hit for GET /?limit=100
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:23:28.888Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=100 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/product-categories ← - (200) - 40.992 ms
+[32mhttp[39m:    GET /store/products?limit=100 ← - (200) - 50.483 ms
+[DEBUG] Tenant Middleware hit for GET /?limit=100
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:24:23.958Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=100 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=100 ← - (200) - 42.666 ms
+[DEBUG] Tenant Middleware hit for GET /?limit=100
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:24:24.978Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=100 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=100 ← - (200) - 21.065 ms
+[DEBUG] Tenant Middleware hit for GET /?limit=100
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:24:25.896Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=100 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=100 ← - (200) - 21.478 ms
+[DEBUG] Tenant Middleware hit for GET /?limit=100
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:24:26.704Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=100 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=100 ← - (200) - 19.441 ms
+[DEBUG] Tenant Middleware hit for GET /
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:24:29.317Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","accept-encoding":"gzip, deflate"}
+[TENANT] Request for / identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/product-categories ← - (200) - 26.502 ms
+[DEBUG] Tenant Middleware hit for GET /?limit=100
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:24:29.330Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=100 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=100 ← - (200) - 41.668 ms
+[DEBUG] Tenant Middleware hit for GET /?limit=100
+[DEBUG] Auth Context: {}
+[DEBUG] User context: {}
+[DEBUG] Session: {"cookie":{"originalMaxAge":36000000,"expires":"2026-04-18T00:24:30.788Z","secure":false,"httpOnly":true,"path":"/","sameSite":false}}
+[DEBUG] Headers: {"host":"localhost:9000","connection":"keep-alive","x-publishable-api-key":"pk_651b4c2c09454729b198e480b85c934d479d32cdf5237d5bc06d113a83c906e9","x-tenant-id":"raleys-market","accept":"*/*","accept-language":"*","sec-fetch-mode":"cors","user-agent":"node","pragma":"no-cache","cache-control":"no-cache","accept-encoding":"gzip, deflate"}
+[TENANT] Request for /?limit=100 identified as tenant: raleys-market
+[32mhttp[39m:    GET /store/products?limit=100 ← - (200) - 62.240 ms

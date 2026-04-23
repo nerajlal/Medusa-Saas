@@ -2,12 +2,20 @@
 
 import { useState } from "react"
 import { createCart, addLineItem } from "@/lib/medusa"
+import { useCart } from "./CartProvider"
 
-export default function AddToCart({ variantId }: { variantId: string }) {
+export default function AddToCart({ 
+  variantId, 
+  variant = "default" 
+}: { 
+  variantId: string, 
+  variant?: "default" | "choco" | "minimal" | "market"
+}) {
   const [loading, setLoading] = useState(false)
   const [added, setAdded] = useState(false)
+  const { refreshCart } = useCart()
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (retry = true) => {
     setLoading(true)
     try {
       let cartId = localStorage.getItem("cart_id")
@@ -17,37 +25,48 @@ export default function AddToCart({ variantId }: { variantId: string }) {
         localStorage.setItem("cart_id", cartId!)
       }
       await addLineItem(cartId!, variantId, 1)
+      await refreshCart()
       setAdded(true)
       setTimeout(() => setAdded(false), 2000)
     } catch (e) {
       console.error(e)
-      alert("Failed to add to cart")
+      if (retry) {
+        localStorage.removeItem("cart_id")
+        await handleAddToCart(false)
+      } else {
+        alert("Failed to add to cart")
+      }
     } finally {
-      setLoading(false)
+      if (retry) setLoading(false)
     }
   }
+
+  const isMinimal = variant === "minimal"
+  const isMarket = variant === "market"
 
   return (
     <button 
       onClick={handleAddToCart}
       disabled={loading}
-      className={`relative w-full py-4 overflow-hidden rounded-full transition-all duration-300 transform active:scale-95 ${
-        added ? "bg-emerald-500 scale-105" : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg"
-      }`}
+      className={`relative w-full py-4 px-6 overflow-hidden transition-all duration-300 active:scale-[0.98] ${
+        added 
+          ? "bg-green-600 text-white" 
+          : isMinimal 
+            ? "bg-black text-white hover:bg-neutral-800"
+            : isMarket
+              ? "bg-[#242529] text-white hover:bg-black rounded-xl"
+              : "bg-blue-600 text-white hover:bg-blue-700 shadow-sm"
+      } ${isMinimal ? "" : "rounded-2xl"}`}
     >
        <div className="flex items-center justify-center gap-3">
           {loading ? (
-            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <div className={`w-4 h-4 border-2 rounded-full animate-spin ${ (isMinimal || added || isMarket) ? "border-white/30 border-t-white" : "border-white/30 border-t-white"}`} />
           ) : (
-            <span className="text-[12px] font-black uppercase tracking-tighter text-white">
-               {added ? "READY IN CART ✓" : "GET IT NOW"}
+            <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest">
+               {added ? "Added ✓" : isMinimal ? "Acquire" : isMarket ? "Add" : "Add to cart"}
             </span>
           )}
        </div>
-       
-       {!added && !loading && (
-          <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full m-3 animate-pulse" />
-       )}
     </button>
   )
 }

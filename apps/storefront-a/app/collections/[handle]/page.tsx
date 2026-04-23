@@ -1,11 +1,12 @@
 import { fetchCollectionByHandle, fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import Link from "next/link"
 
 export default async function CollectionPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
   const collection = await fetchCollectionByHandle(handle)
-  const { products } = await fetchProducts() // In real app, filter by collection_id
-
+  const products = await fetchProducts()
+  
   return (
     <div className="min-h-screen bg-[#fafafa]">
       <main className="max-w-7xl mx-auto px-8 py-20">
@@ -22,7 +23,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ han
 
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-32 relative">
           {products?.map((product: any) => (
-            <a href={`/products/${product.handle || product.id}`} key={product.id} className="group cursor-pointer block relative">
+            <Link href={`/products/${product.handle || product.id}`} key={product.id} className="group cursor-pointer block relative">
               <div className="aspect-[3/4] bg-white relative overflow-hidden mb-8 rounded-sm border border-slate-50 w-full h-full min-h-[350px]">
                 <Image 
                   src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1000"} 
@@ -44,7 +45,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ han
                  </div>
                  <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest leading-none">Standard Supply</p>
               </div>
-            </a>
+            </Link>
           ))}
         </section>
 

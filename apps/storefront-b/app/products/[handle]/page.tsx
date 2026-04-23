@@ -1,8 +1,10 @@
 import { fetchProduct } from "@/lib/medusa"
 import Image from "next/image"
+import AddToCart from "@/app/components/AddToCart"
 
-export default async function ProductPage({ params }: { params: { handle: string } }) {
-  const product = await fetchProduct(params.handle)
+export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params
+  const product = await fetchProduct(handle)
 
   if (!product) {
     return <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center text-white text-[10px] font-black uppercase tracking-[0.5em]">Object Not Located / 404</div>
@@ -50,14 +52,16 @@ export default async function ProductPage({ params }: { params: { handle: string
                 </div>
              </div>
 
-             <div className="space-y-4">
-                <button className="w-full bg-white text-black py-6 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-neutral-200 transition-all">
-                   Add to Collection
-                </button>
-                <button className="w-full border border-white/10 py-6 text-[10px] font-black uppercase tracking-[0.4em] hover:border-white transition-all">
-                   Contact Concierge
-                </button>
-             </div>
+             <div className="mt-20 flex gap-12 items-center">
+               <div className="w-64">
+                 {product.variants?.[0]?.id && (
+                   <AddToCart variantId={product.variants[0].id} variant="minimal" />
+                 )}
+               </div>
+               <button className="text-[10px] font-black uppercase tracking-[0.4em] text-neutral-500 hover:text-white transition-colors">
+                  Inquire
+               </button>
+            </div>
 
              <p className="mt-12 text-[9px] font-black uppercase tracking-[0.6em] text-neutral-700 text-center">Encrypted Shipping / Insured Worldwide</p>
           </div>

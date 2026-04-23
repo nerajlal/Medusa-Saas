@@ -1,5 +1,6 @@
 import { fetchProduct } from "@/lib/medusa"
 import Image from "next/image"
+import AddToCart from "@/app/components/AddToCart"
 
 export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
@@ -16,7 +17,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
           {/* IMAGE SIDE */}
           <div className="relative aspect-[4/5] bg-white border border-slate-100 overflow-hidden">
              <Image 
-                src={product.thumbnail || "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200"} 
+                src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1200"} 
                 alt={product.title}
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
@@ -49,9 +50,11 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
             </div>
 
             <div className="mt-20 flex gap-4">
-               <button className="flex-1 bg-black text-white py-5 text-[10px] font-black uppercase tracking-[0.3em] hover:bg-slate-800 transition-all">
-                  Acquire Object
-               </button>
+               <div className="flex-1">
+                 {product.variants?.[0]?.id && (
+                   <AddToCart variantId={product.variants[0].id} variant="minimal" />
+                 )}
+               </div>
                <button className="px-8 py-5 border border-slate-200 text-black text-[10px] font-black uppercase tracking-widest hover:border-black transition-all">
                   ♡
                </button>

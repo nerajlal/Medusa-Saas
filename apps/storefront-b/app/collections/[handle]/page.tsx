@@ -1,9 +1,11 @@
 import { fetchCollectionByHandle, fetchProducts } from "@/lib/medusa"
 import Image from "next/image"
+import Link from "next/link"
 
-export default async function CollectionPage({ params }: { params: { handle: string } }) {
-  const collection = await fetchCollectionByHandle(params.handle)
-  const { products } = await fetchProducts()
+export default async function CollectionPage({ params }: { params: Promise<{ handle: string }> }) {
+  const { handle } = await params
+  const collection = await fetchCollectionByHandle(handle)
+  const products = await fetchProducts()
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
@@ -18,7 +20,7 @@ export default async function CollectionPage({ params }: { params: { handle: str
 
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-24 gap-y-48">
           {products?.map((product: any) => (
-             <a href={`/products/${product.handle || product.id}`} key={product.id} className="group flex flex-col items-center">
+             <Link href={`/products/${product.handle || product.id}`} key={product.id} className="group flex flex-col items-center">
                 <div className="aspect-[4/5] w-full bg-neutral-900 border border-white/5 relative overflow-hidden mb-12 shadow-2xl">
                    <Image 
                       src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1200"} 
@@ -40,7 +42,7 @@ export default async function CollectionPage({ params }: { params: { handle: str
                       <span className="w-8 h-px bg-white/5" />
                    </div>
                 </div>
-             </a>
+             </Link>
           ))}
         </section>
 
