@@ -2,16 +2,13 @@
 
 import React from "react"
 import Link from "next/link"
-import Header from "@/app/components/Header"
-import Footer from "@/app/components/Footer"
 
 export default function OrderConfirmedPage({ params }: { params: { id: string } }) {
   const orderId = params.id
   const displayId = orderId.slice(-8).toUpperCase()
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <Header />
+    <div className="text-foreground flex flex-col">
       
       <main className="flex-1 flex items-center justify-center p-6 py-20">
         <div className="max-w-2xl w-full">
@@ -47,8 +44,6 @@ export default function OrderConfirmedPage({ params }: { params: { id: string } 
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   )
 }

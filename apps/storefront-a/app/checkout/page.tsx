@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import Header from "@/app/components/Header"
-import Footer from "@/app/components/Footer"
 import { useCart } from "@/app/components/CartProvider"
 import { 
   updateCart, 
@@ -95,18 +93,14 @@ export default function CheckoutPage() {
 
   if (cartLoading || !cart || cart.items?.length === 0) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <Header />
-        <main className="flex-1 flex items-center justify-center">
-           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        </main>
+      <div className="min-h-[50vh] flex items-center justify-center">
+         <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <div className="bg-background">
       
       <main className="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -220,8 +214,6 @@ export default function CheckoutPage() {
 
         </div>
       </main>
-
-      <Footer />
     </div>
   )
 }

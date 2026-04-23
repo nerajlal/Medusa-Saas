@@ -3,8 +3,6 @@
 import React, { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import Header from "@/app/components/Header"
-import Footer from "@/app/components/Footer"
 import { useCart } from "@/app/components/CartProvider"
 import { deleteLineItem, updateLineItem } from "@/lib/medusa"
 
@@ -49,12 +47,8 @@ export default function CartPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <Header />
-        <main className="flex-1 flex items-center justify-center">
-           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        </main>
-        <Footer />
+      <div className="min-h-[50vh] flex items-center justify-center">
+         <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
@@ -62,8 +56,7 @@ export default function CartPage() {
   const isEmpty = !cart?.items || cart.items.length === 0
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <div className="bg-background">
       
       <main className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
         <header className="mb-12">
@@ -161,8 +154,6 @@ export default function CartPage() {
            </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   )
 }
