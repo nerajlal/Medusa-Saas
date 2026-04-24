@@ -11,7 +11,7 @@ function Price({ amount }: { amount: number }) {
   const [dollars, cents] = price.split(".")
   return (
     <div className="flex items-start text-foreground">
-      <span className="text-xl font-black">AED {dollars}</span>
+      <span className="text-xl font-black">INR {dollars}</span>
       <span className="price-superscript">{cents}</span>
     </div>
   )

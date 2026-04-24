@@ -52,9 +52,9 @@ export default async function CollectionPage({ params }: { params: Promise<{ han
                     <div className="flex items-center justify-between mt-auto">
                        <span className="text-lg font-black text-foreground">
                         {(() => {
-                          const aedPrice = product.variants?.[0]?.prices?.find((p: any) => p.currency_code === "aed");
+                          const aedPrice = product.variants?.[0]?.prices?.find((p: any) => p.currency_code === "inr" || p.currency_code === "aed");
                           return aedPrice 
-                            ? `AED ${(aedPrice.amount / 100).toLocaleString()}` 
+                            ? `INR ${(aedPrice.amount / 100).toLocaleString()}` 
                             : "Out of Stock";
                         })()}
                        </span>

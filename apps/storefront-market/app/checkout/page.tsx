@@ -55,7 +55,7 @@ export default function CheckoutPage() {
           company: formData.company,
           address_1: formData.address,
           city: formData.city,
-          country_code: "ae", // Hardcoded to UAE for Choco Bliss
+          country_code: "in", // Hardcoded to India for Raley's Market
           phone: formData.phone
         }
       })
@@ -195,7 +195,7 @@ export default function CheckoutPage() {
                             <p className="text-gray-400 text-xs">Qty: {item.quantity}</p>
                          </div>
                        </div>
-                       <p className="font-black">AED {(item.unit_price * item.quantity / 100).toLocaleString()}</p>
+                       <p className="font-black">INR {(item.unit_price * item.quantity / 100).toLocaleString()}</p>
                     </div>
                   ))}
                </div>
@@ -203,7 +203,7 @@ export default function CheckoutPage() {
                <div className="space-y-3 text-sm text-gray-400 relative z-10 pt-4 border-t border-white/10">
                   <div className="flex justify-between">
                      <p>Subtotal</p>
-                     <p>AED {(cart.subtotal / 100).toLocaleString()}</p>
+                     <p>INR {(cart.subtotal / 100).toLocaleString()}</p>
                   </div>
                   <div className="flex justify-between">
                      <p>Shipping</p>
@@ -213,7 +213,7 @@ export default function CheckoutPage() {
                
                <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-end relative z-10">
                   <p className="text-xs font-black uppercase tracking-widest text-gray-400">Total To Pay</p>
-                  <p className="text-4xl text-primary font-black italic">AED {(cart.total / 100).toLocaleString()}</p>
+                  <p className="text-4xl text-primary font-black italic">INR {(cart.total / 100).toLocaleString()}</p>
                </div>
             </div>
           </div>

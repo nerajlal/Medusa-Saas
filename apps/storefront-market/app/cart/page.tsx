@@ -39,10 +39,10 @@ export default function CartPage() {
 
   const generateWhatsAppLink = () => {
     const items = cart?.items?.map((item: any) => 
-      `* ${item.title} (x${item.quantity}) - AED ${(item.unit_price * item.quantity / 100).toLocaleString()}`
+      `* ${item.title} (x${item.quantity}) - INR ${(item.unit_price * item.quantity / 100).toLocaleString()}`
     ).join("\n")
     
-    const total = `Total: AED ${(cart?.total / 100).toLocaleString()}`
+    const total = `Total: INR ${(cart?.total / 100).toLocaleString()}`
     const text = encodeURIComponent(`Hi Chocolayt, I'd like to place an order:\n\n${items}\n\n${total}`)
     return `https://wa.me/+971553924347?text=${text}`
   }
@@ -92,7 +92,7 @@ export default function CartPage() {
                     
                     <div className="flex-1 min-w-0">
                        <h3 className="text-sm md:text-base font-bold text-foreground line-clamp-1 mb-1">{item.title}</h3>
-                       <p className="text-xs text-secondary-text mb-4">AED {(item.unit_price / 100).toLocaleString()} / unit</p>
+                       <p className="text-xs text-secondary-text mb-4">INR {(item.unit_price / 100).toLocaleString()} / unit</p>
                        
                        <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-1 border border-gray-100">
@@ -115,7 +115,7 @@ export default function CartPage() {
                     </div>
                     
                     <div className="hidden md:block text-right">
-                       <p className="text-lg font-black text-foreground">AED {(item.unit_price * item.quantity / 100).toLocaleString()}</p>
+                       <p className="text-lg font-black text-foreground">INR {(item.unit_price * item.quantity / 100).toLocaleString()}</p>
                     </div>
                  </div>
                ))}
@@ -128,8 +128,8 @@ export default function CartPage() {
                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
                   <div className="space-y-2">
                      <p className="text-gray-400 text-xs font-black uppercase tracking-widest">Grand Total (Incl. Taxes)</p>
-                     <p className="text-4xl md:text-5xl font-black italic tracking-tighter">AED {(cart.total / 100).toLocaleString()}</p>
-                     <p className="text-primary text-[10px] font-black uppercase tracking-widest">+ Free Delivery across UAE</p>
+                     <p className="text-4xl md:text-5xl font-black italic tracking-tighter">INR {(cart.total / 100).toLocaleString()}</p>
+                     <p className="text-primary text-[10px] font-black uppercase tracking-widest">+ Free Delivery across India</p>
                   </div>
                   
                   <div className="flex flex-col gap-4">

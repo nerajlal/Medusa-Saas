@@ -34,7 +34,7 @@ export default function Header() {
           <div className="flex flex-col -space-y-1">
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Delivery to</span>
             <div className="flex items-center gap-1">
-              <span className="text-sm font-bold text-foreground">95814</span>
+              <span className="text-sm font-bold text-foreground">Mumbai, India</span>
               <ChevronDown className="w-3 h-3 text-gray-400" />
             </div>
           </div>
