@@ -15,6 +15,7 @@ export async function fetchProducts(params: Record<string, string> = {}) {
   try {
     const queryItems = {
       sales_channel_id: SALES_CHANNEL_ID,
+      fields: "*categories,*variants.prices",
       ...params,
     }
     const query = new URLSearchParams(queryItems as any).toString()

@@ -11,7 +11,7 @@ function Price({ amount }: { amount: number }) {
   const [dollars, cents] = price.split(".")
   return (
     <div className="flex items-start text-foreground">
-      <span className="text-xl font-black">₹{dollars}</span>
+      <span className="text-xl font-black">AED {dollars}</span>
       <span className="price-superscript">{cents}</span>
     </div>
   )
@@ -21,13 +21,30 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
   const searchParams = await props.searchParams;
   const selectedCategoryHandle = searchParams.category;
 
-  const { product_categories } = await fetchProductCategories()
+  const { product_categories: allCategories } = await fetchProductCategories()
+  // Filter for Raley's specific categories to avoid showing other tenant categories
+  const product_categories = allCategories.filter((c: any) => 
+    ["fresh-produce", "pantry"].includes(c.handle)
+  )
   
   // Fetch all products for grouped layout or filtered layout
   const allProducts = await fetchProducts()
   
   const filteredProducts = selectedCategoryHandle 
-    ? allProducts.filter((p: any) => p.categories?.some((c: any) => c.handle === selectedCategoryHandle))
+    ? allProducts.filter((p: any) => {
+        const hasCat = p.categories?.some((c: any) => c.handle === selectedCategoryHandle);
+        if (hasCat) return true;
+        
+        // Smart fallback for Raley's keywords
+        const title = p.title.toLowerCase();
+        if (selectedCategoryHandle === "fresh-produce") {
+          return ["juice", "spinach", "avocado", "strawberry", "produce", "fresh", "salmon", "steak", "egg", "milk"].some(k => title.includes(k));
+        }
+        if (selectedCategoryHandle === "pantry") {
+          return ["bread", "loaf", "muffin", "sourdough", "pantry"].some(k => title.includes(k));
+        }
+        return false;
+      })
     : allProducts
 
   return (
@@ -68,11 +85,17 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
               {product_categories.map((cat: any) => {
                 const catProducts = allProducts.filter((p: any) => {
                   const pCats = p.categories;
-                  if (Array.isArray(pCats)) {
+                  if (Array.isArray(pCats) && pCats.length > 0) {
                     return pCats.some((c: any) => c.id === cat.id);
                   }
-                  if (pCats && typeof pCats === 'object') {
-                    return (pCats as any).id === cat.id;
+                  
+                  // Smart fallback for Raley's keywords
+                  const title = p.title.toLowerCase();
+                  if (cat.handle === "fresh-produce") {
+                    return ["juice", "spinach", "avocado", "strawberry", "produce", "fresh", "salmon", "steak", "egg", "milk"].some(k => title.includes(k));
+                  }
+                  if (cat.handle === "pantry") {
+                    return ["bread", "loaf", "muffin", "sourdough", "pantry"].some(k => title.includes(k));
                   }
                   return false;
                 })
@@ -136,40 +159,48 @@ export default async function Home(props: { searchParams: Promise<{ category?: s
               })}
             </div>
           ) : (
-
             <div className="space-y-8">
                <div className="flex items-center gap-4 border-b border-border-light pb-6">
                   <Link href="/" className="text-gray-400 hover:text-primary transition-colors"><ChevronRight className="w-6 h-6 rotate-180" /></Link>
                   <h3 className="text-3xl font-black text-foreground">
-                    {product_categories.find((c: any) => c.handle === selectedCategoryHandle)?.name}
+                    {product_categories.find((c: any) => c.handle === selectedCategoryHandle)?.name || selectedCategoryHandle}
                   </h3>
                </div>
-
+ 
                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-12 gap-x-6">
-                 {filteredProducts.map((product: any) => (
-                    <div key={product.id} className="group flex flex-col relative">
-                       <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                          {product.variants?.[0]?.id && (
-                             <AddToCart variantId={product.variants[0].id} variant="market" />
-                          )}
-                       </div>
-                       <Link href={`/products/${product.handle}`} className="relative aspect-square mb-3 block overflow-hidden rounded-xl bg-gray-50 border border-gray-100/50">
-                         <Image 
-                           src={product.thumbnail || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"} 
-                           alt={product.title || "Product Image"}
-                           fill
-                           unoptimized
-                           className="object-contain p-6 group-hover:scale-110 transition-transform duration-700"
-                         />
-                       </Link>
-                       <Price amount={product.variants?.[0]?.prices?.[0]?.amount || 0} />
-                       <h4 className="text-[14px] font-bold text-gray-700 leading-tight mb-1 mt-1">{product.title}</h4>
-                       <p className="text-[11px] text-gray-400 font-bold mb-3 uppercase">1 unit</p>
-                       <div className="mt-auto flex items-center gap-1.5 text-[10px] font-extrabold text-primary">
-                          Many in Stock
-                       </div>
-                    </div>
-                 ))}
+                 {filteredProducts.length > 0 ? (
+                   filteredProducts.map((product: any) => (
+                      <div key={product.id} className="group flex flex-col relative">
+                         <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {product.variants?.[0]?.id && (
+                               <AddToCart variantId={product.variants[0].id} variant="market" />
+                            )}
+                         </div>
+                         <Link href={`/products/${product.handle}`} className="relative aspect-square mb-3 block overflow-hidden rounded-xl bg-gray-50 border border-gray-100/50">
+                           <Image 
+                             src={product.thumbnail || "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80"} 
+                             alt={product.title || "Product Image"}
+                             fill
+                             unoptimized
+                             className="object-contain p-6 group-hover:scale-110 transition-transform duration-700"
+                           />
+                         </Link>
+                         <Price amount={product.variants?.[0]?.prices?.[0]?.amount || 0} />
+                         <h4 className="text-[14px] font-bold text-gray-700 leading-tight mb-1 mt-1">{product.title}</h4>
+                         <p className="text-[11px] text-gray-400 font-bold mb-3 uppercase">1 unit</p>
+                         <div className="mt-auto flex items-center gap-1.5 text-[10px] font-extrabold text-primary">
+                            Many in Stock
+                         </div>
+                      </div>
+                   ))
+                 ) : (
+                   <div className="col-span-full py-20 text-center space-y-4">
+                      <div className="text-6xl">📦</div>
+                      <h4 className="text-xl font-black text-foreground">No products in this aisle yet</h4>
+                      <p className="text-gray-400 font-bold max-w-xs mx-auto">We're restocking this section. Check back soon or browse other departments!</p>
+                      <Link href="/" className="inline-block text-primary font-black underline underline-offset-4">Back to home</Link>
+                   </div>
+                 )}
                </div>
             </div>
           )}
