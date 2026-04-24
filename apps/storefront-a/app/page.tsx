@@ -20,6 +20,7 @@ export default async function Home() {
                 src="https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=1200&q=80" 
                 alt="Architectural Light"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover grayscale group-hover:scale-110 transition-transform duration-[3s] ease-in-out"
                 priority
              />
@@ -83,9 +84,10 @@ export default async function Home() {
                 <a href={`/products/${product.handle || product.id}`}>
                   <div className="aspect-[4/5] bg-white relative overflow-hidden mb-12 rounded-sm border border-slate-100 transition-all duration-1000 group-hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)]">
                     <Image 
-                      src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1200"} 
+                      src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200"} 
                       alt={product.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[1.5s] ease-in-out"
                     />
                     <div className="absolute top-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -132,6 +134,7 @@ export default async function Home() {
                   src="https://images.unsplash.com/photo-1549497538-301288c8549a?auto=format&fit=crop&w=1200&q=80" 
                   alt="Minimal light"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s] ease-in-out"
                />
             </div>
@@ -179,6 +182,7 @@ export default async function Home() {
                  src="https://images.unsplash.com/photo-1510074377623-8cf13fb86c08?auto=format&fit=crop&w=1200&q=80" 
                  alt="Minimal Gallery"
                  fill
+                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                  className="object-cover grayscale group-hover:scale-110 transition-transform duration-[3s] ease-in-out hover:grayscale-0"
               />
               <div className="absolute inset-0 bg-black/40 mix-blend-multiply opacity-40" />

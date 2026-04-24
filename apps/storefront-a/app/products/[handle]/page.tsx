@@ -17,9 +17,10 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
           {/* IMAGE SIDE */}
           <div className="relative aspect-[4/5] bg-white border border-slate-100 overflow-hidden">
              <Image 
-                src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1200"} 
+                src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200"} 
                 alt={product.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000"
              />
           </div>

@@ -3,6 +3,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || "http://localh
 const SALES_CHANNEL_ID = process.env.NEXT_PUBLIC_SALES_CHANNEL_ID || ""
 const TENANT_ID = process.env.NEXT_PUBLIC_TENANT_ID || ""
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || ""
+const REGION_ID = process.env.NEXT_PUBLIC_REGION_ID || ""
 
 const getHeaders = () => ({
   "Content-Type": "application/json",
@@ -65,7 +66,10 @@ export async function createCart() {
   const res = await fetch(`${BACKEND_URL}/store/carts`, {
     method: "POST",
     headers: getHeaders(),
-    body: JSON.stringify({ sales_channel_id: SALES_CHANNEL_ID }),
+    body: JSON.stringify({ 
+      sales_channel_id: SALES_CHANNEL_ID,
+      region_id: REGION_ID 
+    }),
   })
   if (!res.ok) {
      const error = await res.json()
@@ -135,4 +139,51 @@ export async function fetchCollectionByHandle(handle: string) {
   if (!res.ok) return null
   const data = await res.json()
   return data.collections?.[0] || null
+}
+
+export async function updateCart(cartId: string, data: any) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) throw new Error("Failed to update cart")
+  return res.json()
+}
+
+export async function fetchShippingOptions(cartId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/shipping-options?cart_id=${cartId}`, {
+    headers: getHeaders(),
+    cache: 'no-store'
+  })
+  if (!res.ok) return { shipping_options: [] }
+  return res.json()
+}
+
+export async function addShippingMethod(cartId: string, optionId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/shipping-methods`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify({ option_id: optionId }),
+  })
+  if (!res.ok) throw new Error("Failed to add shipping method")
+  return res.json()
+}
+
+export async function initiatePaymentSession(cartId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/payment-sessions`, {
+    method: "POST",
+    headers: getHeaders(),
+  })
+  if (!res.ok) throw new Error("Failed to initiate payment session")
+  return res.json()
+}
+
+export async function completeCart(cartId: string) {
+  const res = await fetch(`${BACKEND_URL}/store/carts/${cartId}/complete`, {
+    method: "POST",
+    headers: getHeaders(),
+  })
+  if (!res.ok) throw new Error("Failed to complete cart")
+  return res.json()
 }

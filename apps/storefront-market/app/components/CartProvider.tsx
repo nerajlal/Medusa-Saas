@@ -35,7 +35,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCartId(currentId)
 
     try {
-      const { cart: cartData } = await fetchCart(currentId!)
+      const cartData = await fetchCart(currentId!)
       setCart(cartData)
     } catch (e) {
       console.error("Failed to fetch cart:", e)

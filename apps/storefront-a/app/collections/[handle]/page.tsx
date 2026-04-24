@@ -26,7 +26,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ han
             <Link href={`/products/${product.handle || product.id}`} key={product.id} className="group cursor-pointer block relative">
               <div className="aspect-[3/4] bg-white relative overflow-hidden mb-8 rounded-sm border border-slate-50 w-full h-full min-h-[350px]">
                 <Image 
-                  src={product.thumbnail || "https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1000"} 
+                  src={product.thumbnail || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000"} 
                   alt={product.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

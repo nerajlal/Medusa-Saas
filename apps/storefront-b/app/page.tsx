@@ -78,7 +78,7 @@ export default async function Home() {
            <div className="grid grid-cols-1 md:grid-cols-2 gap-32 items-center max-w-screen-2xl mx-auto">
               <div className="relative aspect-[3/2] bg-neutral-900 border border-white/5 overflow-hidden">
                  <Image 
-                    src="https://images.unsplash.com/photo-1549497538-301288c8549a?q=80&w=1000" 
+                    src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000" 
                     alt="Noir Membership"
                     fill
                     className="object-cover opacity-40"
